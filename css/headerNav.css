@@ -1,0 +1,296 @@
+/*------------------------------------*\
+			RESET
+\*------------------------------------*/
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td,button {
+	margin:0px;
+	padding:0px;
+}
+/*------------------------------------*\
+NAV
+\*------------------------------------*/
+#nav{
+	top: 0px;
+	right: 15px;
+	list-style:none;
+	font-weight:bold;
+	margin-bottom:2px;
+	/* Clear floats */
+	float: right;
+	width:auto;
+	/* Bring the nav above everything else--uncomment if needed. */
+	position:relative;
+	z-index:1000;
+	font-size: 12px;
+}
+#nav li{
+	float:right;
+	margin-right:3px;
+	position:relative;
+	padding: 3px;
+}
+#nav a{
+	display:block;
+	padding:9px;
+	color:#fff;
+	background:#8cc63e;
+	text-decoration:none;
+	border: outset #bbb1a7;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+
+#nav a:hover{
+	color:#fff;
+	background:#8cc63e;
+	text-decoration:none;
+}
+
+/*--- DROPDOWN ---*/
+#nav ul{
+	background:#fafafb; /* Adding a background makes the dropdown work properly in IE7+. Make this as close to your page's background as possible (i.e. white page == white background). */
+	background:rgba(250,250,251,0); /* But! Let's make the background fully transparent where we can, we don't actually want to see it if we can help it... */
+	list-style:none;
+	position:absolute;
+	left:-9999px; /* Hide off-screen when not needed (this is more accessible than display:none;) */
+}
+#nav ul li{
+	padding-top:1px; /* Introducing a padding between the li and the a give the illusion spaced items */
+	float:none;
+	}
+#nav ul a{
+	white-space:nowrap; /* Stop text wrapping and creating multi-line dropdown items */
+}
+#nav li:hover ul{ /* Display the dropdown on hover */
+	left:0; /* Bring back on-screen when needed */
+}
+#nav li:hover a{ /* These create persistent hover states, meaning the top-most link stays 'hovered' even when your cursor has moved down the list. */
+	background:#01a7e5;
+	text-decoration:none;
+
+}
+#nav li:hover ul a{ /* The persistent hover state does however create a global style for links even before they're hovered. Here we undo these effects. */
+	text-decoration:none;
+}
+#nav li:hover ul li a:hover{ /* Here we define the most explicit hover states--what happens when you hover each individual link. */
+	background:#de040a;
+}
+
+
+/*------------------------------------*\
+THE NC DASHBOARD "NAV"
+\*------------------------------------*/
+
+#ncNav{
+	top: 0px;
+	list-style:none;
+	font-weight:bold;
+	margin-bottom:2px;
+	/* Clear floats */
+	float: left;
+	width:auto;
+	/* Bring the nav above everything else--uncomment if needed. */
+	position:relative;
+	z-index:1000;
+	font-size: 12px;
+}
+#ncNav li{
+	float:right;
+	margin-right:3px;
+	position:relative;
+	padding: 3px;
+}
+#ncNav a{
+	display:block;
+	padding:6px;
+	color:#fafafb;
+	background:#4ba74d;
+	text-decoration:none;
+	border: solid 2px #bbb1a7;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+
+
+#ncNav a:hover{
+	color:#fff;
+	background:#de040a;
+	text-decoration:none;
+}
+
+/*--- DROPDOWN ---*/
+#ncNav ul{
+	background:#fafafb; /* Adding a background makes the dropdown work properly in IE7+. Make this as close to your page's background as possible (i.e. white page == white background). */
+	background:rgba(250,250,251,0); /* But! Let's make the background fully transparent where we can, we don't actually want to see it if we can help it... */
+	list-style:none;
+	position:absolute;
+	left:-9999px; /* Hide off-screen when not needed (this is more accessible than display:none;) */
+}
+#ncNav ul li{
+	padding-top:1px; /* Introducing a padding between the li and the a give the illusion spaced items */
+	float:none;
+	}
+#ncNav ul a{
+	white-space:nowrap; /* Stop text wrapping and creating multi-line dropdown items */
+}
+#ncNav li:hover ul{ /* Display the dropdown on hover */
+	left:0; /* Bring back on-screen when needed */
+}
+#ncNav li:hover a{ /* These create persistent hover states, meaning the top-most link stays 'hovered' even when your cursor has moved down the list. */
+	background:#f33e06;
+	text-decoration:none;
+
+}
+#ncNav li:hover ul a{ /* The persistent hover state does however create a global style for links even before they're hovered. Here we undo these effects. */
+	text-decoration:none;
+}
+#ncNav li:hover ul li a:hover{ /* Here we define the most explicit hover states--what happens when you hover each individual link. */
+	background:#de040a;
+}
+
+/*------------------------------------*\
+DC NAV
+\*------------------------------------*/
+#dcNav{
+	top: 0px;
+	left: 15px;
+	list-style:none;
+	font-weight:bold;
+	margin-bottom:2px;
+	/* Clear floats */
+	float: left;
+	width:auto;
+	/* Bring the nav above everything else--uncomment if needed. */
+	position:relative;
+	z-index:1000;
+	font-size: 12px;
+}
+#dcNav li{
+	float:right;
+	margin-right:3px;
+	position:relative;
+	padding: 3px;
+}
+#dcNav a{
+	display:block;
+	padding:6px;
+	color:#fff;
+	background:#a9005b;
+	text-decoration:none;
+	border: 2px outset #bbb1a7;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+
+
+#dcNav a:hover{
+	color:#fff;
+	background:#8cc63e;
+	text-decoration:none;
+}
+
+/*--- DROPDOWN ---*/
+#dcNav ul{
+	background:#fafafb; /* Adding a background makes the dropdown work properly in IE7+. Make this as close to your page's background as possible (i.e. white page == white background). */
+	background:rgba(250,250,251,0); /* But! Let's make the background fully transparent where we can, we don't actually want to see it if we can help it... */
+	list-style:none;
+	position:absolute;
+	left:-9999px; /* Hide off-screen when not needed (this is more accessible than display:none;) */
+}
+#dcNav ul li{
+	padding-top:1px; /* Introducing a padding between the li and the a give the illusion spaced items */
+	float:none;
+	}
+#dcNav ul a{
+	white-space:nowrap; /* Stop text wrapping and creating multi-line dropdown items */
+}
+#dcNav li:hover ul{ /* Display the dropdown on hover */
+	left:0; /* Bring back on-screen when needed */
+}
+#dcNav li:hover a{ /* These create persistent hover states, meaning the top-most link stays 'hovered' even when your cursor has moved down the list. */
+	background:#01a7e5;
+	text-decoration:none;
+
+}
+#dcNav li:hover ul a{ /* The persistent hover state does however create a global style for links even before they're hovered. Here we undo these effects. */
+	text-decoration:none;
+}
+#dcNav li:hover ul li a:hover{ /* Here we define the most explicit hover states--what happens when you hover each individual link. */
+	background:#de040a;
+}
+
+
+/*------------------------------------*\
+Admin NAV
+\*------------------------------------*/
+#adminNav{
+	top: 0px;
+	left: 15px;
+	list-style:none;
+	font-weight:bold;
+	margin-bottom:2px;
+	/* Clear floats */
+	float: left;
+	width:auto;
+	/* Bring the nav above everything else--uncomment if needed. */
+	position:relative;
+	z-index:1000;
+	font-size: 12px;
+}
+#adminNav li{
+	float:right;
+	margin-right:3px;
+	position:relative;
+	padding: 3px;
+}
+#adminNav a{
+	display:block;
+	padding:6px;
+	color:#fff;
+	background:#2f4b66;
+	text-decoration:none;
+  border: 2px inset #bbb1a7;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+}
+
+
+#adminNav a:hover{
+	color:#fff;
+	background:#8cc63e;
+	text-decoration:none;
+}
+
+/*--- DROPDOWN ---*/
+#adminNav ul{
+	background:#fafafb; /* Adding a background makes the dropdown work properly in IE7+. Make this as close to your page's background as possible (i.e. white page == white background). */
+	background:rgba(250,250,251,0); /* But! Let's make the background fully transparent where we can, we don't actually want to see it if we can help it... */
+	list-style:none;
+	position:absolute;
+	left:-9999px; /* Hide off-screen when not needed (this is more accessible than display:none;) */
+}
+#adminNav ul li{
+	padding-top:1px; /* Introducing a padding between the li and the a give the illusion spaced items */
+	float:none;
+	}
+#adminNav ul a{
+	white-space:nowrap; /* Stop text wrapping and creating multi-line dropdown items */
+}
+#adminNav li:hover ul{ /* Display the dropdown on hover */
+	left:0; /* Bring back on-screen when needed */
+}
+#adminNav li:hover a{ /* These create persistent hover states, meaning the top-most link stays 'hovered' even when your cursor has moved down the list. */
+	background:#01a7e5;
+	text-decoration:none;
+
+}
+#adminNav li:hover ul a{ /* The persistent hover state does however create a global style for links even before they're hovered. Here we undo these effects. */
+	text-decoration:none;
+}
+#adminNav li:hover ul li a:hover{ /* Here we define the most explicit hover states--what happens when you hover each individual link. */
+	background:#de040a;
+}

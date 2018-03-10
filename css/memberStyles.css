@@ -1,0 +1,278 @@
+/* This is the main page*/
+
+html {
+	background: white;
+	}
+
+body {
+	background: white;
+	}
+
+body.index {
+	background-color:white;
+	color: white;
+	}
+
+div.mainLogin {
+	background-color:white;
+	background-image: url("images/login.jpg");
+	color: white; 
+	width:1024px; 
+	margin-left:auto; 
+	margin-right:auto; 
+	text-align:center;
+	}
+
+div.mainLoginCenter {
+	background-color: white;
+	background-image: url("images/login.jpg");
+	color: white; 
+	width:400px; 
+	margin-left:auto; 
+	margin-right:auto; 
+	text-align:center;
+	}
+
+
+
+
+div.login input {
+	border: 1px solid black;
+	
+	}
+
+body.indexS {
+	background-color:white;
+	width:100%;
+	bottom: 10px;
+	overflow: auto;
+	}
+
+/* The main iframe
+ * as seen on indexS.php
+ * It holds the functionality page chosen by the nav via css/headerNav.css stylesheet
+ */
+iframe.ContentFrame {
+	border-color: white;
+	position:absolute; 
+	left:0%; 
+	right:60px;
+	width:100%; 
+	height:100%;
+	overflow: auto;
+	bottom: 10px;
+	}
+
+/* This is the likely replacement for the titleButtons section across the top */ 
+div.gearsWidget{
+	height: 50px;
+	top: 40px;
+	overflow: visible;
+	padding-top: 5px;
+	}
+
+/* This is the likely replacement for the titleButtons section across the top */ 
+div.profileNav{
+ overflow: visible;
+	padding-top: 5px;
+	}
+
+div.leftWidget {
+	color: #2d2e2f;
+	background-color: white;
+	position:absolute;
+	width: 450px; 
+	bottom:20px; 
+	overflow:auto;
+	top: 140px;
+	left:50px;
+	padding: 0px 15px 0px 0px;
+	border: 1px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	}
+
+
+/* This is the div covers the map*/
+div.fullWidget {
+	color: #2d2e2f;
+	background-color: white;
+	position:absolute;
+	margin-left: auto;
+	margin-right: auto;
+	min-width: auto; 
+	max-width: 2000px;
+	bottom:20px; 
+	overflow:visible;
+	top: 140px;
+	left: 25px;
+	right: 25px;
+	border: 1px white;
+	z-index:9;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	}
+
+	
+div.mapWidgetWrapper{
+	width: auto;
+	top:140px;
+	bottom:20px;
+	overflow: auto;
+	}
+
+/* This is the container for Google Maps */
+div.mapWidget{
+	position:absolute;
+	right: 70px;
+	left: 550px;
+	width: auto; 
+	bottom:20px; 
+	/*overflow:hidden;*/
+	top: 140px;
+	border: 1px;
+	-webkit-border-radius: 1px;
+	-moz-border-radius: 1px;
+	border-radius: 1px;
+	}
+
+div.rightWidget{
+	position:absolute;
+	width:480px;
+	left: 690px;
+	width: auto; 
+	height: 550px; 
+	/*overflow:hidden;*/
+	top: 200px;
+	border: 3px white;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	padding: 25px;
+	top: 80px;
+	}
+	
+div.profileLeft {
+	background-color: white; 
+	padding: 25px;
+	top: 130px;	
+	position:absolute;
+	/*border:1px dashed #ff1316;*/
+	overflow:auto;
+	left: 125px; 
+	}
+	
+div.profileFull{
+	position:relative;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 20px 10px 10px 10px;
+	border-top: 3px #bbb1a7 solid;
+	text-align: center;
+	min-width: 1280px;
+	min-height: 1550px;
+	background-color: #2f8a31;
+	}
+	
+#unconfirmedHelp {padding: 15px;}
+
+#unconfirmedForm {padding: 15px;}
+
+.table_header a {color: white;}
+
+div.table_header tr {font-size: 14px; color: #c4df9b; background-color: #f33e06; text-decoration: none; padding: 3px; text-align: left;}
+
+#tr_even {background-color: #c3eba8; color: #272727; max-width: 25px;}
+
+#tr_odd	{background-color: #8cc63e; color: #272727;max-width: 50px;}   
+
+div.tableAllMembersWrapper {
+	background-color: #fafafb;
+	top: 150px;
+	overflow: auto;
+	border: 7px solid #2f4b66;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	}	
+	
+
+/* PDF TABLE LAYOUT DIV FOR UI AND PRINTING*/
+div.buttonViewPDF {
+	top: 2px;
+	width: 94%;
+	position: absolute;
+	}
+
+/* PDF TABLE LAYOUT DIV FOR UI AND PRINTING*/
+div.tableViewPDF {
+	top: 75px;
+	width: 100%;
+	float: right;
+	position: relative;
+	}
+
+
+
+
+/* This is the text-editor.
+ * It's used under the Welcome Committee section
+ * similar to leftWidget, but wider for easier editing/display
+ */
+div.editorWidget{
+	background-color: #fafafb;
+	position:absolute;
+	width:480px; 
+	display:none;
+	/*border:1px dashed #ff1316;*/
+	overflow:auto;
+	padding: 20px;
+	}
+
+
+/* The generic widget div*/
+div.widget {
+	background-color: #fafafb; 
+	width: 96%;
+	padding: 25px;
+	top: 130px;	
+	position:absolute;
+	/*border:1px dashed #ff1316;*/
+	overflow:auto; 
+	}
+	
+/* This is for the orangish buttons being used in various places across the app now */
+.queuebuttons {
+	-moz-box-shadow:inset 0px 1px 21px 0px #fce2c1;
+	-webkit-box-shadow:inset 0px 1px 21px 0px #fce2c1;
+	box-shadow:inset 0px 1px 21px 0px #fce2c1;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffa83d), color-stop(1, #ff760d) );
+	background:-moz-linear-gradient( center top, #ffa83d 5%, #ff760d 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffa83d', endColorstr='#ff760d');
+	background-color:#ffa83d;
+	-moz-border-radius:17px;
+	-webkit-border-radius:17px;
+	border-radius:17px;
+	border:1px solid #eeb44f;
+	display:inline-block;
+	color:#333033;
+	font-family:arial;
+	font-size:13px;
+	font-weight:bold;
+	padding:6px 20px;
+	text-decoration:none;
+	text-shadow:1px 1px 1px #cc9f52;
+}.queuebuttons:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff760d), color-stop(1, #ffa83d) );
+	background:-moz-linear-gradient( center top, #ff760d 5%, #ffa83d 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff760d', endColorstr='#ffa83d');
+	background-color:#ff760d;
+}.queuebuttons:active {
+	position:relative;
+	top:1px;
+}
+	
+
+

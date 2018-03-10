@@ -1,0 +1,294 @@
+/* This is the main page*/
+
+body.index {
+	background-color:#fafafb;
+	color: green;
+	}
+
+div.indexCenter {
+	background-color:#fafafb;
+	background-image: url('images/bag500ltsilver.jpg');
+	color: #ffffff;
+	width:500px; 
+	margin-left:auto; 
+	margin-right:auto; 
+	text-align:center;
+	}
+
+div.mainLogin {
+	background-color:#fafafb;
+	color: green; 
+	width:960px; 
+	margin-left:auto; 
+	margin-right:auto; 
+	text-align:center;
+	
+	}
+
+div.mainLoginCenter {
+	background-color:#fafafb;
+	background-image: url('images/bag500ltsilver.jpg');
+	color: #ffffff;
+	width:500px; 
+	margin-left:auto; 
+	margin-right:auto; 
+	text-align:center;
+	
+	}
+
+div.login input {
+	border: 1px solid black;
+	
+	}
+
+body.indexS {
+	background-color:#fafafb;
+	width:100%;
+	bottom: 10px;
+	overflow: auto;
+	}
+
+/* The main iframe
+ * as seen on indexS.php
+ * It holds the functionality page chosen by the nav via css/headerNav.css stylesheet
+ */
+iframe.ContentFrame {
+	border-color: #fafafb;
+	position:absolute; 
+	left:0%; 
+	right:0%;
+	width:100%; 
+	height:100%;
+	overflow: auto;
+	bottom: 10px;
+	}
+
+div.adminDashboardWrapper {
+	background-color: #fafafb;
+	margin-left: 20px;
+	margin-right: 20px;
+	}
+
+div.districtDashboardWrapper {
+	background-color: #fafafb;
+	margin-left: 20px;
+	margin-right: 20px;
+	}
+
+div.neighborhoodDashboardWrapper {
+	background-color: #fafafb;
+	margin-left: 20px;
+	margin-right: 20px;
+	}
+
+div.memberDashboardWrapper {
+	background-color: #fafafb;
+	margin-left: 20px;
+	margin-right: 20px;
+	}
+
+
+/* This is the likely replacement for the titleButtons section across the top */ 
+div.gearsWidget{
+	height: 100px;
+	top: 100px;
+	overflow: visible;
+	padding-top: 20px;
+	}
+	
+
+/* gearsWidget2 is for the "full screen" content that needs to go across the entire dashboard.
+It's being used in conjunction with the mainWrapper2 class and some jQuery functions*/
+
+div.gearsWidget2 {
+	height: 100px;
+	top: 100px;
+	overflow: visible;
+	padding-top: 20px;
+	}
+
+div.mainWrapper {
+	width: 100%;
+	height: 580px;
+	overflow: visible;
+	}
+	
+div.mainWrapper2 {
+	width: 100%;
+	height: 580px;
+	overflow: visible;
+	}
+	
+	
+div.leftWidgetWrapper{
+	width: 490px;
+	height: 550px;
+	}
+
+div.fullWidgetWrapper{
+	width: auto;
+	height: 550px;
+	}	
+	
+div.helpiconWidget {
+	top: 136px;
+	height: auto;
+	width: 16px;
+	float: left;
+	}
+
+div.helpWidget {
+	top: 136px;
+	height: auto;
+	width: 250px;
+	display: none;
+	}
+	
+/* This is the div positioned to the left of the Google Maps */
+div.leftWidget {
+	color: #2d2e2f;
+	background-image: url("images/bag_480x500.png");
+	background-repeat: no-repeat;
+	background-color: #fafafb;
+	position:absolute;
+	width: 425px; 
+	height:450px; 
+	overflow:auto;
+	top: 100px;
+	border: 1px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	}
+
+/* This is the div positioned to the left of the Google Maps */
+div.fullWidget {
+	color: #2d2e2f;
+	background-image: url("images/bag_480x500.png");
+	background-repeat: no-repeat;
+	background-color: #fafafb;
+	position:absolute;
+	width: auto; 
+	height:450px; 
+	overflow:visible;
+	top: 100px;
+	border: 1px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	}
+
+	
+div.mapWidgetWrapper{
+	width: auto;
+	height: 450px;
+	overflow: auto;
+	}
+
+/* This is the container for Google Maps */
+div.mapWidget{
+	position:absolute;
+	right: 10px;
+	left: 515px;
+	width: auto; 
+	height: 450px; 
+	/*overflow:hidden;*/
+	top: 100px;
+	border: 1px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	}
+
+div.rightWidgetWrapper{
+	width: auto;
+	height: 450px;
+	overflow: auto;
+	}
+
+div.rightWidget{
+	position:absolute;
+	left: 515px;
+	width: auto; 
+	height: 450px; 
+	/*overflow:hidden;*/
+	top: 100px;
+	border: 1px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	}
+
+
+div.tableAllMembersWrapper {
+	background-color: #fafafb;
+	position:absolute;
+	float: left;
+	left: 25px;
+	width: 960px;
+	height:450px; 
+	overflow:auto;
+	top: 150px;
+	border: 1px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	}	
+	
+/* GENERIC INNER TABLE LAYOUT DIV FOR UI */
+div.tableView {
+	top: 50px;
+	height: 500px;
+	width: 1024px;
+	}
+
+div.tableViewAllMembers {
+	top: 50px;
+	height: 500px;
+	width: 1024px;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: scroll;
+	}
+
+/* PDF TABLE LAYOUT DIV FOR UI AND PRINTING*/
+div.buttonViewPDF {
+	top: 2px;
+	width: 94%;
+	position: absolute;
+	}
+
+/* PDF TABLE LAYOUT DIV FOR UI AND PRINTING*/
+div.tableViewPDF {
+	top: 75px;
+	width: 100%;
+	float: right;
+	position: relative;
+	}
+
+
+
+
+/* This is the text-editor.
+ * It's used under the Welcome Committee section
+ * similar to leftWidget, but wider for easier editing/display
+ */
+div.editorWidget{
+	background-color: #fafafb;
+	position:absolute;
+	width:480px; 
+	display:none;
+	/*border:1px dashed #ff1316;*/
+	overflow:auto;
+	padding: 20px;
+	}
+
+
+/* The generic widget div*/
+div.widget {
+	background-color: #bbe8ec;	
+	position:absolute;
+	/*border:1px dashed #ff1316;*/
+	overflow:auto;
+	}
+
