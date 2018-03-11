@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
-<?php 
+<?php
 include('functions.php');
 include ('config.php');
 
 if(isset($_GET['save']))
 {
 	require_once('recaptchalib.php');
-	$privatekey = "6Lefv9YSAAAAALU8tdAV2XQH2P2JeBX-xezrMrhU";
+	$privatekey = "6Ldy7EsUAAAAAENd6v0x1x4ZQ42PIQ89ccq8jWrM";
 	$resp = recaptcha_check_answer ($privatekey,
                               $_SERVER["REMOTE_ADDR"],
                               $_POST["recaptcha_challenge_field"],
@@ -37,11 +37,12 @@ if(isset($_GET['save']))
 	<!--<meta name="viewport" content="width=device-width">-->
 	<link rel="stylesheet" href="css/style.css">
 	<script src="js/scripts.js"></script>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
 
 <body>
-	<?php 
+	<?php
 		//if(isset($_POST['save']))
 		//$saved=	saveNewDonor($_POST);
 		//else $saved=false;
@@ -61,15 +62,15 @@ if(isset($_GET['save']))
       			<table>
       				<tr><td colspan="3"><h3>Pickup Address:</h3></td></tr>
       				<tr><td>House/Street #</td><td>Street Name</td><td>Apt/Suite</td></tr>
-      				
+
       				<tr><td><input type="text" name="HouseNumber" maxlength="25" size="8" <?php if($failed) echo 'value="'.$_POST['HouseNumber'].'"';?>></td>
       					<td> <input type="text" name="street" <?php if($failed) echo 'value="'.$_POST['street'].'"';?> /> </td>
       					<td><input type="text" name="Apt" maxlength="25" size="6" <?php if($failed) echo 'value="'.$_POST['Apt'].'"';?>></td>
       				</tr>
-      				
+
       				<tr><td>City</td><td>State</td><td>Zip Code</td></tr>
-      				
-      
+
+
       					<td> <input type="text" name="City" <?php if($failed) echo 'value="'.$_POST['City'].'"';?>/></td>
       					<td><input type="text" name="State" size="2" <?php if($failed) echo 'value="'.$_POST['State'].'"';?>/></td>
       					<td><input type="text" name="Zip" size="5" <?php if($failed) echo 'value="'.$_POST['Zip'].'"';?> /></td>
@@ -78,7 +79,7 @@ if(isset($_GET['save']))
       				<tr><p style="font-size: 10px; color: green;">***Please do not omit City, State, or Zip Code***</p></tr>
       			<br />
       			<table>
-      			
+
       				<tr><td colspan="3" ><h3>Primary Contact Info:</h3></td></tr>
       				<tr><td colspan="2">Phone</td><td></td></tr>
       				<tr><td colspan="2"><input type="text" name="Phone" maxlength="15" size="35" <?php if($failed) echo 'value="'.$_POST['Phone'].'"';?> /></td>
@@ -87,47 +88,48 @@ if(isset($_GET['save']))
       				<tr><td>Email</td></tr>
       					<td colspan="2"><input type="text" name="Email" maxlength="50" size="50" <?php if($failed) echo 'value="'.$_POST['Email'].'"';?> /></td>
       				</tr>
-      				
+
       			</table>
-      			<br />	
-      					
+      			<br />
+
       					<b>Willing to volunteer as:</b><br />
       					<input type="checkbox" name="FD" value="FD" <?php if($failed) echo 'value="'.$_POST['FD'].'"';?> /> Food Donor<br />
       					<input type="checkbox" name="NC" value="NC" <?php if($failed) echo 'value="'.$_POST['NC'].'"';?>/> Neighborhood Coordinator<br />
 
       			<br /><p>Additional Info<br />
       			<textarea name="AdditionalInfo" cols="50" rows="6" <?php if($failed) echo 'value="'.$_POST['AdditionalInfo'].'"';?>></textarea></p><br />
-      
-      					 
-      			<?php
+
+						<div class="g-recaptcha" data-sitekey="6Lefv9YSAAAAAM-R1YHak2dbV8wmOstQj-ifq3Iy"></div>
+
+							<?php
                 require_once('recaptchalib.php');
-                $publickey = "6Lefv9YSAAAAAM-R1YHak2dbV8wmOstQj-ifq3Iy"; // you got this from the signup page
+                $publickey = "6Ldy7EsUAAAAAHfb6qlMHwHRd9ULyCQigWd1btn-"; // you got this from the signup page
                 echo recaptcha_get_html($publickey);
       		//		include("verify.php");
               ?>
-      			
+
       			<br /><input type="submit" name="submit" value="Submit" >
       		</form>
-					
-					
+
+
 					<p style="text-align: center; font-size: 11px; padding-top: 10px; color: #dd050a;">
 					Form not working in your browser for some reason?</br> Try another <a href="http://en.wikipedia.org/wiki/Web_browser" target="_blank">browser</a> or just send <a href="mailto:<?php echo getFPemail() ?>">an email</a> directly to the food project.
 					</p>
-					
-</div>
 
 </div>
 
-         
+</div>
+
+
 </body>
-</html>                 
+</html>
 
 	<script src="js/libs/modernizr-2.5.3.min.js"></script>
 	<script type="text/javascript" src="js/scripts.js"> </script>
 
 
 
-<?php 
+<?php
 function saveNewDonor($_POST)
 {
 	$fname=$_POST["FirstName"];
@@ -143,21 +145,21 @@ function saveNewDonor($_POST)
 	$email=$_POST["Email"];
 	$info=$_POST["AdditionalInfo"];
 	$source="website";
-	 
+
 ////UNCOMMENT TO DEBUG:
 //	echo '<p style="color:fuchsia">				$fname: '.$fname.'<br/>				$lname; '.$lname.'<br/>				address: '.$house.' '.$street.' '.$apt.' '.$city.' '.$state.' '.$zip.'<br/>				phone: '.$areacode1.' .$phone1<br/>				$nhoodID: 		';
 //	if(isset($nhoodID))echo $nhoodID.'</p>';
 //		else echo '</p>';
-	
+
 	$dbh=openPDO();
-	
+
 	//echo 'inserting without $nhoodID';
 		$insertSQL="INSERT INTO members (FirstName, LastName, House, StreetName, Apt, City, State, Zip, PreferredPhone, PreferredEmail,  PUNotes, DateEntered, source)
 			VALUES (:fname,:lname,:house,:street,:apt,:city,:state,:zip,:phone,:email,:info,CURDATE(), :source)";
-//echo '$nhoodID=true<br/> insertSQL:<br/>'.$insertSQL;			
+//echo '$nhoodID=true<br/> insertSQL:<br/>'.$insertSQL;
 		$insert=$dbh->prepare($insertSQL);
 
-				
+
 		$insert->bindParam(':fname', $fName );
 		$insert->bindParam(':lname', $lName);
 		$insert->bindParam(':house', $houseNum);
@@ -170,8 +172,8 @@ function saveNewDonor($_POST)
 		$insert->bindParam(':email', $theEmail);
 		$insert->bindParam(':info', $theNotes);
 		$insert->bindParam(':source',$theSource);
-		
-		
+
+
 		$fName=$fname;
 		$lName=$lname;
 		$houseNum=$house;
@@ -185,9 +187,9 @@ function saveNewDonor($_POST)
 		$theNotes=$info;
 		$theSource=$source;
 
-		
+
 		try
-		{		$insert->execute();		
+		{		$insert->execute();
 			//$insert->debugDumpParams();
 		}
 		catch(PDOException $e)
@@ -195,15 +197,15 @@ function saveNewDonor($_POST)
 			echo '<script type="text/javascript"> alert("updateContact() failed to UPDATE the log. \n\n Error: '.$e->getMessage().'")</script>';
 			die();
 		}
-	
-	$newID=$dbh->lastInsertId();
-	
-	
-	
 
-	
-	
-	
+	$newID=$dbh->lastInsertId();
+
+
+
+
+
+
+
 // ////UNCOMMENT TO DEBUG:
 	// if($result)
 		// echo '<p style="color:lime">New user added successfully</p><br/>';
@@ -211,19 +213,19 @@ function saveNewDonor($_POST)
 			// mysql_errno() . ': ' . mysql_error() . '<hr/>';
 
 
-	
 
-		
-		
-		
+
+
+
+
 ////////////////////////////////
 //	roles
 ///////////////////////////////////
 	//$roles[]
 	//mysql_close($con);
 	opendb();
-	
-	
+
+
 //UNCOMMENT TO DEBUG:
 	// echo '<p style="color:lime">	$fname: '.$fname.'<br/>
 				// $lname; '.$lname.'<br/>
@@ -232,20 +234,20 @@ function saveNewDonor($_POST)
 				// $nhoodID: 		';
 	// if(isset($nhoodID))echo $nhoodID.'</p>';
 		// else echo '</p>';
-	
+
 //get the MemberID from the new member INSERT in order to perform the 'groups' table insert
 	$uidSQL="SELECT MemberID FROM members 	WHERE FirstName='".$fname."'	AND LastName='".$lname."'	AND House='".$house."'	AND StreetName='".$street."'	AND PreferredPhone='".$phone."' 	AND PreferredEmail='".$email."' ORDER BY MemberID DESC";
-	
+
 //	echo '$uidSQL:		'.$uidSQL;
-	
-	
+
+
 	$idArr=mysql_fetch_array(mysql_query($uidSQL));
-	
-	
-// //DEBUG:	
+
+
+// //DEBUG:
 // 		echo '<script type="text/javascript">alert("$idArr:\n'.$idArr['MemberID'].'");</script>';
 	$memberID=$idArr['MemberID'];
-// //DEBUG:	
+// //DEBUG:
 // 		echo '<script type="text/javascript">alert("$idArr:\n'.$idArr.'\n\n$memberID:\n'.$memberID.'");</script>';
 	if(isset($_POST['FD']))
 		$isFD=1;
@@ -268,12 +270,12 @@ function saveNewDonor($_POST)
 	if(isset($_POST['ADMIN']))
 		$isADMIN=1;
 	else $isADMIN=0;
-	
+
 	$groupInsert="INSERT INTO groups (uID, FD, NC, DC, WC, DM, WM, ADMIN) VALUES(".$newID.",".$isFD.",".$isNC.",".$isDC.",".$isWC.",".$isDM.",".$isWM.",".$isADMIN.")";
 
 	$insertResult=mysql_query($groupInsert);
 
-//uncomment to debug:	
+//uncomment to debug:
 //	if($insertResult)
 //		echo '<p style="color:lime">Added User to Groups Table</p><br/>';
 //	else echo '<p style="color:red">COULD NOT INSERT INTO GROUPS TABLE</p><hr/>'.
@@ -282,42 +284,42 @@ function saveNewDonor($_POST)
 	 INSERT INTO members (FirstName, LastName, House, StreetName, Apt, City, State, Zip, PreferredPhone, PreferredEmail, SecondaryPhone, SecondaryEmail, Notes) VALUES ('ZZZ', 'DCtester', 123,'N','1ST ST','-', '0','Ashland','OR',97520,'541-555-5555','DCtester1@example.com','541-555-5555','DCtester2@example.com',' **** THIS IS A DEVELOPMENT TESTER ACCOUNT *** delete at will' )
 	*/
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // //LOG THE NEW SIGNUP
 // 	$logSql="INSERT INTO log(changeMade, dateTime, signup) VALUES('".addslashes($sql)."',NOW(), 1)";
 // 	$logResult=mysql_query($logSql);
 // 	if($logResult) echo '<p style="color:lime">Log Successful</p>';
 // 	else echo '<p style="color:maroon">Log Failed.<br/>logSQL:<br/>'.$logSql.'</p>';
-	
-	
+
+
 	//////////////////////
 	//	log changes 	//
 		$dbh=openPDO();
-		
-		
+
+
 			{
 			$logSQL="INSERT INTO members (FirstName, LastName, House, StreetName, Apt, City, State, Zip, PreferredPhone, PreferredEmail,  PUNotes, DateEntered)
 				VALUES (".$fname.",".$lname.",".$house.",".$street.",".$apt.",".$city.",".$state.",".$zip.",".$phone.",".$email.",".$info.",CURDATE())
 				<br/>
 				MemberID: ".$memberID	;
-		}	
-	
-	
-	
-	
+		}
+
+
+
+
 			$log=$dbh->prepare('INSERT INTO log (changeMade, dateTime, signup) VALUES (:logData, NOW(), 1) ');
 			$log->bindParam(':logData', $logData);
 			$logData=$logSQL;
@@ -333,14 +335,14 @@ function saveNewDonor($_POST)
 		}
 
 
-		
 
-		
-		
+
+
+
 		return true;
-		
-		
-}		
+
+
+}
 
 
 
