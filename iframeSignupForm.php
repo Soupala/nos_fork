@@ -6,24 +6,9 @@ include ('config.php');
 
 if(isset($_GET['save']))
 {
-	require_once('recaptchalib.php');
-	$privatekey = "6Ldy7EsUAAAAAENd6v0x1x4ZQ42PIQ89ccq8jWrM";
-	$resp = recaptcha_check_answer ($privatekey,
-                              $_SERVER["REMOTE_ADDR"],
-                              $_POST["recaptcha_challenge_field"],
-                              $_POST["recaptcha_response_field"]);
-
-	if (!$resp->is_valid) {
-	  // What happens when the CAPTCHA was entered incorrectly
-	  echo '<script type="text/javascript" > alert("The reCAPTCHA was not entered correctly. Go back and try it again.");</script>';
-	  $failed=true;
-	  //die ("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
-		 //  "(reCAPTCHA said: " . $resp->error . ")");
-	} else {
-  	  if(saveNewDonor($_POST))
-  		header("Location: ".getAppWebsite()."/thankyou.php");
-  		exit;
-	}
+  if(saveNewDonor($_POST))
+	header("Location: ".getAppWebsite()."/thankyou.php");
+	exit;
 }
 
 ?>
@@ -99,14 +84,7 @@ if(isset($_GET['save']))
       			<br /><p>Additional Info<br />
       			<textarea name="AdditionalInfo" cols="50" rows="6" <?php if($failed) echo 'value="'.$_POST['AdditionalInfo'].'"';?>></textarea></p><br />
 
-						<div class="g-recaptcha" data-sitekey="6Lefv9YSAAAAAM-R1YHak2dbV8wmOstQj-ifq3Iy"></div>
-
-							<?php
-                require_once('recaptchalib.php');
-                $publickey = "6Ldy7EsUAAAAAHfb6qlMHwHRd9ULyCQigWd1btn-"; // you got this from the signup page
-                echo recaptcha_get_html($publickey);
-      		//		include("verify.php");
-              ?>
+						<div class="g-recaptcha" data-sitekey="6Ldy7EsUAAAAAHfb6qlMHwHRd9ULyCQigWd1btn-"></div>
 
       			<br /><input type="submit" name="submit" value="Submit" >
       		</form>
