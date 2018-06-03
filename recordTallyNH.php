@@ -44,7 +44,7 @@
 		$nhName=$nhname['NHName'];
 
 		$defaultPickupDateValues = getDefaultPickupDateValues();
-		echo '$<h1>'.$defaultPickupDateValues.'</h1>'
+		echo '$<h1>'.$defaultPickupDateValues.'</h1>';
 		// $monthCode = $defaultPickupDateValues['MONTH_CODE'];
 		// $monthShort = $defaultPickupDateValues['MONTH_SHORT'];
 
