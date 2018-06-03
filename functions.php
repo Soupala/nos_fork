@@ -24,7 +24,7 @@ function openPDO()
 		$dbpw=getDbPw();		//"Winter2012!";
 		$db=getDb();			//"nfp_sandbox";
 		$dbh= new PDO('mysql:host=localhost;dbname='.$db, $dbuser,$dbpw);
-		
+
 		return $dbh;
 }
 
@@ -35,9 +35,9 @@ function opendb()
 		$dbuser=getDbUser();	//"neighborhoodfoodproject";
 		$dbpw=getDbPw();		//"Winter2012!";
 		$db=getDb();			//"nfp_sandbox";
-		
+
 	//
-	// connect to the database 
+	// connect to the database
 	//
 		GLOBAL $con;
 		$con = mysql_connect($dbhost, $dbuser, $dbpw);
@@ -60,10 +60,10 @@ function listDCs($id)
 
 //query the database and display each DC name as a link to their NCs
 	$result=mysql_query("SELECT PrintName,MemberID FROM `members` WHERE Role like '%DC%' ");
-		
+
 	//$DCname=$name;
 		while ($row=mysql_fetch_array($result))
-		{	
+		{
 			$DCid=$row["MemberID"];
 			$DCname=$row["PrintName"];
 			echo '<a href="DChome.php?DCname='.$DCname.'&DCid='.$DCid.'" target="ContentFrame" >'.$DCname.'</a><br/>';
@@ -85,11 +85,11 @@ function listNCs($DCid)
 			opendb();
 			$result=mysql_query("SELECT PrintName,MemberID FROM `alldonors` WHERE isNC='Y' OR isNC='y'");
 		//$result=mysql_query("SELECT LastName, FirstName, MemberId  FROM frozendonortable WHERE Role = 'NC' OR Role = 'Org-NC' OR Role = 'Co-NC' OR Role = 'NCDC' OR Role = 'NCDCSC'" );
-		
+
 		echo '<table border="1"><tr><th>click on an NC\'s name to view their tally sheet</th><th>click on an NC\'s name to view their contact list</th></tr>';
 		$NCname=$name;
 		while ($row=mysql_fetch_array($result))
-			{	
+			{
 				$NCid=$row["MemberId"];
 				$NCname=$row["FirstName"].$row["LastName"];
 				echo '<tr><td>';
@@ -107,7 +107,7 @@ function listNCs($DCid)
 function updateContact($contactID, $lname, $fname, $house, $street, $Apt,$city,$state,$zip,$puid,$ncid,$dcid,$eMail,$email2, $phone,$phone2,$feb,$apr,$jun,$aug,$oct,$dec, $notes, $punotes)
 	{
 		opendb();
-		
+
 
 
 
@@ -119,9 +119,9 @@ function updateContact($contactID, $lname, $fname, $house, $street, $Apt,$city,$
 		echo 'update successful';
 	else echo 'COULD NOT UPDATE DATABASE';
 //////////////////////
-//	log changes 	//		
+//	log changes 	//
 // 	$dbh=openPDO();
-	
+
 // 		$log=$dbh->prepare('INSERT INTO log (memberID, changeMade, dateTime) VALUES ('.$id.', :logData, NOW())');
 // 		$log->bindParam(':logData', $logData);
 // 		$logData=$sql;
@@ -134,7 +134,7 @@ function updateContact($contactID, $lname, $fname, $house, $street, $Apt,$city,$
 // 		echo '<script type="text/javascript"> alert("updateContact() failed to UPDATE the log. \n\n Error: '.$e->getMessage().'")</script>';
 // 		die();
 // 	}
-		
+
 	}//end function
 
 
@@ -151,9 +151,9 @@ function navButtons($homepage)
 	echo '<div id="navButtons" style="position:absolute; right:50px; top:35px; background-color:olive;">
 			<a href="securepage/nfp_password_protect.php?logout=1" title="logout"> <img src="../icons/exit.png" alt="Logout" width="30px" height="30px" /></a>
 			<a href="'.$homepage.'" target="ContentFrame" title="View your Home page" > <img src="../icons/home.png" alt="View Homepage" width="30px" height="30px" /></a>
-		
+
 	</div>
-	
+
 	';
 }
 ////
@@ -176,7 +176,7 @@ function getNextPUdate()
 		//$PUdate=date('MY');
 //		echo '<br/> inside if (month%2) - - PUdate:'.$PUdate;
 	}
-	else	
+	else
 	{	$month+=1;
 		$PUdate=$month." / ".$year;
 		//$nextM=mktime(0,0,0,$month,0,$year);
@@ -218,7 +218,7 @@ return date('M',$next_date)."(".date('m',$next_date).")";
 function getEditPermissions($groups)
 {	//echo '<p style="color:red; z-index:8;">Now entering getEditPermissions()</p>';
 	//	This is the place to change whether the logged in member can view a datum, edit it, or neither
-//	"w" (write) 	means members with this Role CAN change the datum 
+//	"w" (write) 	means members with this Role CAN change the datum
 //	"r" (read)		means members with this Role CAN read the datum but CANNOT change it
 //	"h" (hidden)	means members with this Role CANNOT read and CANNOT change the datum
 	if ($groups['ADMIN'] || $groups['VC'] || $groups['DM'] || $groups['WC'])
@@ -249,10 +249,10 @@ function DCcombobox()
 			$result = mysql_query($query);
 			 $DCsBox='<select name="DCsBox">';
 			 $DCsBox.='<option value=""> DC Name ( DistrictName )</option>';
-			while ($row = mysql_fetch_array($result)) 
+			while ($row = mysql_fetch_array($result))
 			{
 				$DCsBox.= '<option value="'.$row['MemberID'].'" >'.$row['LastName'].', '.$row['FirstName'];
-			
+
 				$sql=mysql_query("SELECT DistrictName,DCID FROM districts WHERE DCID=".$row['MemberID'] );
 					while ($dists=mysql_fetch_array($sql))
 					{
@@ -277,7 +277,7 @@ function districtCombobox()
 		$Dbox.='<option value="'.$row['DistrictID'].'" >'.$row['DistrictName'].'</option>';
 	}
 	$Dbox.='</select>';
-	
+
 	return $Dbox;
 }
 
@@ -305,7 +305,7 @@ function NhoodCombobox($districtID)
 		$NHbox.='<option value="'.$row['NHoodID'].'" >'.$row['NHName'].'</option>';
 	}
 	$NHbox.='</select>';
-	
+
 	return $NHbox;
 }
 //////////////////////////////////
@@ -315,15 +315,15 @@ function NhoodCombobox($districtID)
 //	$nhoodid: 	neighborhood ID to have automatically selected on load
 //////////////////////////////////
 function allNhoodsByNCNameCombobox($comboboxName, $onchange="", $nhoodid='')
-{	
+{
 	$nhSelected=false;
 	$nhQuery=mysql_query("SELECT NHoodID, NHName FROM neighborhoods ORDER BY NHName");
 	//if($onchange="noOnchange")
 	//	$NHbox='<select name="NHbox"> ';
 	//else
-	
+
 		$NHbox='<select name="'.$comboboxName.'" onchange="'.$onchange.'" >';
-		
+
 	while ($row=mysql_fetch_array($nhQuery))
 	{
 		if($row['NHoodID']==$nhoodid)
@@ -335,7 +335,7 @@ function allNhoodsByNCNameCombobox($comboboxName, $onchange="", $nhoodid='')
 	}
 	if (!$nhSelected) $NHbox.='<option value="" selected="true">*** No Neighborhood Assigned *** </option>';
 	$NHbox.='</select>';
-	
+
 	return $NHbox;
 }
 
@@ -346,7 +346,7 @@ function allNhoodsByNCNameCombobox($comboboxName, $onchange="", $nhoodid='')
 //	$nhoodid: 	neighborhood ID to have automatically selected on load
 //////////////////////////////////
 function allNhoodCombobox($comboboxName, $onchange="", $nhoodid='')
-{	
+{
 	$nhQuery=mysql_query("SELECT NHoodID, NHName FROM neighborhoods ORDER BY NHName");
 	//if($onchange="noOnchange")
 	//	$NHbox='<select name="NHbox"> ';
@@ -361,10 +361,10 @@ function allNhoodCombobox($comboboxName, $onchange="", $nhoodid='')
 			$NHbox.='<option value="'.$row['NHoodID'].'" >'.$row['NHName'].'</option>';
 	}
 	$NHbox.='</select>';
-	
+
 	return $NHbox;
 }
- 
+
 //////////////////////////////////
 //			NC COMBOBOX 		//
 //	pulls NCs' memberIDs from groups table		//
@@ -375,14 +375,14 @@ function NCcombobox($onchange="", $selected="")
 	$NCbox='<select name="NCbox" onchange="'.$onchange.'" id="NCbox" > ';
 	$NCbox.='<option ></option>';
 	while ($row=mysql_fetch_array($ncQuery))
-	{	
+	{
 		if($row['MemberID'] == $selected)
 			$NCbox.='<option value="'.$row['MemberID'].'" selected="selected" >'.$row['LastName'].', '.$row['FirstName'].'</option>';
 		else
 			$NCbox.='<option value="'.$row['MemberID'].'" >'.$row['LastName'].', '.$row['FirstName'].'</option>';
 	}
 	$NCbox.='</select>';
-	
+
 	return $NCbox;
 
 }//end NCcombobox()
@@ -402,7 +402,7 @@ function DistrictsCombobox($comboboxName, $onchange)
 	$result = mysql_query($query);
 	$districtsBox='<select name="'.$comboboxName.'" onchange="'.$onchange.'">';
 	$districtsBox.='<option value="" >*** Select District ***</option>';
-	while ($row = mysql_fetch_array($result)) 
+	while ($row = mysql_fetch_array($result))
 	{
 		$DistrictName=$row['DistrictName'];
 		$DistrictID=$row['DistrictID'];
@@ -412,7 +412,7 @@ function DistrictsCombobox($comboboxName, $onchange)
 		$districtsBox.='<option value='.$DistrictID.'> '.$DistrictName.' (DC: '.$DCName.') </option>';
 	}
 	$districtsBox.='</select>';
-	
+
 	return $districtsBox;
 }
 
@@ -432,7 +432,7 @@ function NeighborhoodsCombobox($comboboxName, $formName='', $selected='')
 	$result = mysql_query($query);
 	$NHBox='<select name="'.$comboboxName.'" onchange="'.$formName.'.submit();">';
 	$NHBox.='<option value="" >Neighborhood Name (NC Name)</option>';
-	while ($row = mysql_fetch_array($result)) 
+	while ($row = mysql_fetch_array($result))
 	{
 		$NHName=$row['NHName'];
 		$DistrictID=$row['DistrictID'];
@@ -443,7 +443,7 @@ function NeighborhoodsCombobox($comboboxName, $formName='', $selected='')
 		$NHBox.='<option value='.$NHoodID.'> '.$NCName.' (NH: '.$NHName.') </option>';
 	}
 	$NHBox.='</select>';
-	
+
 	return $NHBox;
 }
 
@@ -456,8 +456,8 @@ function getUserGroups($uid)
 	$groupsQuery=mysql_query("SELECT * FROM groups WHERE uID='".$uid."'");
 		 //$groups=mysql_fetch_array($groupsQuery);
 		 return mysql_fetch_array($groupsQuery);
-	
-	
+
+
 }
 
 function getUserRoles($uid)
@@ -486,11 +486,11 @@ function nhoodPolys()
 	echo '';
 }
 
-	
 
 
 
-	
+
+
 function logDBChange($sql)
 {
 		//LOG THE CHANGE
@@ -506,9 +506,9 @@ function logDBChange($sql)
 			die();
 		}
 }
-	
-	
-	
+
+
+
 function saveRegionName($dbTable, $newName, $regionID)
 {
 		if($dbTable=="neighborhoods")
@@ -532,16 +532,16 @@ function saveRegionName($dbTable, $newName, $regionID)
  		die();
 		}
 }//end saveRegionName()
-	
-	
+
+
 ///////////////////////////////////////////////
-//			PICKUP HISTORY 	
-//	To get the little red/green/yellow/white gague, 
-//	first store getRecentPickupDates() in a variable, 
+//			PICKUP HISTORY
+//	To get the little red/green/yellow/white gague,
+//	first store getRecentPickupDates() in a variable,
 //	then call getDonorHistoryTable() with that variable.
 //	It places a <table> where you make these calls.
 ///////////////////////////////////////////////
-  
+
   function getRecentPickupDates($numDates)
   {
 	$arr=array();
@@ -561,7 +561,7 @@ function getDonorHistoryTable($uID, $datesArray,$numDates)
 {
 	$history= '<table border="1"><tr>';
 	for ($index=$numDates-1;$index>=0;$index--)
-	{	
+	{
 		$dateSql="SELECT pickedUp, pickupDate FROM pickupHistory WHERE memberID=".$uID ." AND pickupDate='".$datesArray[$index]."'";
 		$result=mysql_query($dateSql);
 		if($result)
@@ -574,7 +574,7 @@ function getDonorHistoryTable($uID, $datesArray,$numDates)
 				else if($row['pickedUp']==3) {	$color="white"; $pu="-"; }
 			}
 			else {$color="#f3fc60"; $pu="&nbsp;";}
-			
+
 			$history.= '<td title="'.$datesArray[$index].'" style="background-color:'.$color.'; width:20px; height:10px; font-size:7pt; text-align: center;">'.$pu.'</td>';
 		}
 	}
@@ -592,18 +592,18 @@ function neighborhoodswitch($comboboxName, $formName='', $selected='')
 	$result = mysql_query($query);
 	$NHBox='<select name="'.$comboboxName.'" onchange="'.$formName.'.submit();">';
 	$NHBox.='<option value="" >Neighborhood</option>';
-	while ($row = mysql_fetch_array($result)) 
+	while ($row = mysql_fetch_array($result))
 	{
 		$NHName=$row['NHName'];
 		$NHoodID=$row['NHoodID'];
 		$NHBox.='<option value='.$NHoodID.'> '.$NHName.' </option>';
 	}
 	$NHBox.='</select>';
-	
-	return $NHBox;
-}	
 
-	
+	return $NHBox;
+}
+
+
 	//TOGGLE DONOR-HAS-BAG
 	function setHasBag($fdid)
 	{
@@ -613,18 +613,18 @@ function neighborhoodswitch($comboboxName, $formName='', $selected='')
 	//	$wcnotesArray=mysql_fetch_array(mysql_query("SELECT WCNotes FROM members WHERE MemberID=".$fdid));
 	//	$wcnotes= $wcnotesArray['WCNotes'];
 		$wcnotes='Received Bag '.getTodaysDate();
-		
+
 		// echo $wcnotes;
-		
+
 		$sql="UPDATE members SET accepted=1, hasBag=1, WCNotes='".$wcnotes."' WHERE MemberID=".$fdid;
 		$query=mysql_query($sql);
 		if(!$query) echo mysql_error();
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	function statusMenu($status)
 	{
 		$theBox= '<select name="statusMenu" >';
@@ -639,7 +639,7 @@ function neighborhoodswitch($comboboxName, $formName='', $selected='')
 		else
 			$theBox.='<option title="Permanentely deactivated, stored only for archival reasons">Archived</option>';
 		$theBox.=	'</select>';
-		
+
 		return $theBox;
 	}
 	//lists all member email addresses in the neighborhood, separated by commas for cut/paste into email client for bulk emails
@@ -684,7 +684,7 @@ function neighborhoodswitch($comboboxName, $formName='', $selected='')
 		}
 		return $emailList;
 	}
-	
+
 	//lists all NC email addresses in the district, separated by semicolons for cut/paste into email client for bulk emails to one's NCs
 	function districtBulkEmailSemicolon($did)
 	{
@@ -700,7 +700,7 @@ function neighborhoodswitch($comboboxName, $formName='', $selected='')
 		return $emailList;
 	}
 
-	
+
 		//lists all DC email addresses in the Food Project, separated by commas for cut/paste into email client for bulk emails to all DCs
 	function wpBulkEmail()
 	{
@@ -715,7 +715,7 @@ function neighborhoodswitch($comboboxName, $formName='', $selected='')
 		}
 		return $emailList;
 	}
-	
+
 			//lists all DC email addresses in the Food Project, separated by semicolons for cut/paste into email client for bulk emails to all DCs
 	function wpBulkEmailSemicolon()
 	{
@@ -730,8 +730,8 @@ function neighborhoodswitch($comboboxName, $formName='', $selected='')
 		}
 		return $emailList;
 	}
-	
-	
+
+
 	function saveMergedNhoods($keeperBox, $discardBox)
 	{
 		//move all members of discardBox to keeperBox
@@ -741,9 +741,9 @@ function neighborhoodswitch($comboboxName, $formName='', $selected='')
 		if($move)
 			$del=mysql_query("DELETE FROM neighborhoods WHERE NHoodID=".$discardBox);
 	}
-	
-	
-	
+
+
+
 	function getNHNameFromNhoodID($NhoodID)
 	{
 		$sql=mysql_query("SELECT NHName FROM neighborhoods WHERE NHoodID=".$NhoodID);
@@ -753,62 +753,62 @@ function neighborhoodswitch($comboboxName, $formName='', $selected='')
 		}
 		else return '';
 	}
-	
+
 	function getNCNameFromNhoodID($NhoodID)
 	{
 		$sql=mysql_query("SELECT MemberID,FirstName,LastName FROM members,neighborhoods WHERE neighborhoods.NHoodID=".$NhoodID." AND members.MemberID=neighborhoods.NCID");
-		
+
 		if($sql)
 		{	$theName=mysql_fetch_array($sql);
 		return $theName['FirstName'].' '.$theName['LastName'];
 		}
 		else return '';
-		
+
 	}
-	
+
 	function getDCNameFromNhoodID($NhoodID)
 	{
 		$sql=mysql_query("SELECT FirstName,LastName FROM members, neighborhoods, districts where districts.DistrictID=neighborhoods.DistrictID AND neighborhoods.NHoodID=".$NhoodID." and members.MemberID=districts.DCID");
-		
+
 		if($sql)
 		{	$theName=mysql_fetch_array($sql);
 		return $theName['FirstName'].' '.$theName['LastName'];
 		}
 		else return '';
 	}
-	
+
 	function getDistrictNameFromNhoodID($NhoodID)
 	{
 		$sql=mysql_query("SELECT DistrictName FROM  neighborhoods, districts where districts.DistrictID=neighborhoods.DistrictID AND neighborhoods.NHoodID=".$NhoodID);
-		
+
 		if($sql)
 		{	$theName=mysql_fetch_array($sql);
 		return $theName['DistrictName'];
 		}
 		else return '';
 	}
-	
+
 	function getPrivateNotesFromNhoodID($NhoodID)
 	{
 		$sql=mysql_query("SELECT privateNotes FROM  neighborhoods WHERE neighborhoods.NHoodID=".$NhoodID);
-		
+
 		if($sql)
 		{	$thePrivateNotes=mysql_fetch_array($sql);
 		return $thePrivateNotes['privateNotes'];
 		}
 		else return '';
 	}
-	
-	
-	
+
+
+
 	function getTodaysDate()
 	{
 		date_default_timezone_set('America/Los_Angeles');
 		return date('M d Y');
 	}
-	
-	
-	
+
+
+
 	function getNumNhDonors($nhid)
 	{
 		$sql=mysql_query("select COUNT('MemberID') AS num FROM members WHERE NHoodID=".$nhid." AND (Status='ACTIVE' OR Status='INACTIVE') ");
@@ -818,7 +818,7 @@ function neighborhoodswitch($comboboxName, $formName='', $selected='')
 		}
 		else return '';
 	}
-	
+
 	function getMaxNhDonors($nhid)
 	{
 		$sql= mysql_query("SELECT maxDonors as num FROM neighborhoods WHERE NHoodID=".$nhid);
@@ -838,7 +838,7 @@ function neighborhoodswitch($comboboxName, $formName='', $selected='')
 {
 	$sql="SELECT FirstName, LastName, PreferredEmail, PreferredPhone,NHName FROM members,neighborhoods WHERE neighborhoods.DistrictID=".$dID." AND  members.MemberID=neighborhoods.NCID";
 	$result=mysql_query($sql);
-	
+
 	//echo '<table border=1>	';
 	//	echo '<tr><th> Name </th><th> email</th> <th>Phone</th></tr>	';
 		while($row=mysql_fetch_array($result))
@@ -848,8 +848,8 @@ function neighborhoodswitch($comboboxName, $formName='', $selected='')
 						<b>Email:</b> <a href="mailto:'.$row['PreferredEmail'].'">'.$row['PreferredEmail'] .'</a> <br />
 						<b>Phone:</b> '.$row['PreferredPhone'] .' <br />
 						<hr />';
-					
-					
+
+
 		}
 
 	//echo '</table>	';
@@ -860,7 +860,7 @@ function dcContactList()
 {
 	$sql="SELECT FirstName, LastName, PreferredEmail, PreferredPhone,DistrictName FROM members,districts WHERE   members.MemberID=districts.DCID";
 	$result=mysql_query($sql);
-	
+
 	//echo '<table border=1>	';
 	//	echo '<tr><th> Name </th><th> email</th> <th>Phone</th></tr>	';
 		while($row=mysql_fetch_array($result))
@@ -870,15 +870,15 @@ function dcContactList()
 						<b>Email:</b> <a href="mailto:'.$row['PreferredEmail'].'">'.$row['PreferredEmail'] .'</a> <br />
 						<b>Phone:</b> '.$row['PreferredPhone'] .' <br />
 						<hr>';
-					
-					
+
+
 		}
 
 	//echo '</table>	';
 }
-	
-	
-	
+
+
+
 ////////////////////////////////////////////////////////////////
 //	TRANSFERRED FROM MAPFUNCTIONS.PHP
 ////////////////////////////////////////////////////////////////
@@ -897,15 +897,15 @@ function newNhood($nhname, $ncid, $dID)
 		'. mysql_error().'
 		the SQL was:\n'.$sql.'")';
 
-	//logDBChange($sql);		
-		
-		
+	//logDBChange($sql);
+
+
 }
 
- 
 
 
-	
+
+
 function populateNewDonorsDiv($nhID, $ncid)
 {
 //used in neighborhood.php to populate the confirm/deny tool
@@ -915,11 +915,11 @@ function populateNewDonorsDiv($nhID, $ncid)
 			// echo '<script type="text/javascript"> alert("populateNewDonorsDiv() sql \n SUCCESSFUL");</script>	';
 		// else
 			// echo '<script type="text/javascript"> alert("populateNewDonorsDiv() sql \n UNSUCCESSFUL\n\n'.mysql_error().'\n\n The SQL query was:\n'.$sql.'");</script>	';
-			
+
 //borrowed from unconfirmed.php->getUnconfirmedDonors()
-	while($row=mysql_fetch_array($newDonors) )			//limit the number of records displayed 
+	while($row=mysql_fetch_array($newDonors) )			//limit the number of records displayed
 	{
-		
+
 		$fdID=$row['MemberID'];
 		$address=$row['House'].' '.$row['StreetName'].' ' .$row['City'].' '.$row['State'];
 		$latLongBox="latLong".$row['MemberID'];
@@ -927,16 +927,16 @@ function populateNewDonorsDiv($nhID, $ncid)
 			// $confirmed='checked="checked"';
 		// if($row['CONFIRMED']==FALSE)
 			// $confirmed="";
-			
-		
-			
+
+
+
 			echo '<p style="text-align:left;">
 				<b>'.  $row['FirstName'].' '.$row['LastName'].'</b><br />
 				'.	$row['House'].' '.$row['StreetName'].'<br />
 				'.	$row['City'].', '.$row['State'].' '.$row['Zip'].'
 				</p>';
-				
-			echo ' 		
+
+			echo '
 				<br />
 				<b>Email:</b>	<a href="mailto: '.$row['PreferredEmail'].'">'.$row['PreferredEmail'].'</a>
 				<br />
@@ -946,46 +946,46 @@ function populateNewDonorsDiv($nhID, $ncid)
 
 // DATE ENTERED AND GEOLOCATION
 	echo '			Date Entered:
-				<input type="text" name="ud_date_entered" id="ud_date_entered" value="'.$row['DateEntered'].'" readonly="readonly" /> 
+				<input type="text" name="ud_date_entered" id="ud_date_entered" value="'.$row['DateEntered'].'" readonly="readonly" />
 				<br />
 				';
 	echo	'
-			
+
 				<form id="ncAcceptDonorForm" action="neighborhood.php?uid='.$_GET['uid'].'&nh='. $nhID .'&ncid='. $ncid .'&accept=true&tool=newDonorsDiv" method="post" >
 				<input type="hidden" size="30" name="ud_latLong" id="'.$latLongBox.'" value="'.trim($row['latLong']).'"/>
 				<br />
 				<input type="button" name="ShowOnMap" value="Show Donor Location On Map" class="queuebuttons" style="padding: 10px; margin-top: 5px;" onclick="addMarkerToMap(\''.$address.'\', \''.$latLongBox.'\');" />
 				<br />
-				
+
 				';
-				
-	echo	'				
+
+	echo	'
 				<a style="text-align:center;" href="javascript:toggleTools(\'memberNotesDiv'.$fdID.'\');">
 				<br /> Member Notes +/-</a><br/>
 				<div id="memberNotesDiv'.$fdID.'">
 					<textarea rows="3" cols="50" name="ud_notes" readonly>'.$row['Notes'].'</textarea>
-	
-				
+
+
 				</div>
-				<a style="text-align:center;" href="javascript:toggleTools(\'pickupNotesDiv'.$fdID.'\');"> 
+				<a style="text-align:center;" href="javascript:toggleTools(\'pickupNotesDiv'.$fdID.'\');">
 				Pickup Notes +/-</a><br/>
 				<div id="pickupNotesDiv'.$fdID.'">
 					<textarea rows="2" cols="50" name="ud_punotes" style="width:100%;" readonly>'.$row['PUNotes'].'</textarea>
-	
+
 				</div>
 				<input type="hidden" name="ud_memberID" value="'.$row["MemberID"].'	" />';
 
-				
+
 //THE ACCEPTED BUTTON
 
-				echo '		
+				echo '
 				<br />
 				<input type="hidden" name="fdID" value="'.$fdID.'" />	';
 				echo '	<input type="submit" value="Accept" class="queuebuttons" style="padding: 10px; margin: 4px;" />	';
 				echo '	</form>		';
 
 
-//THE HAS-BAG BUTTON	
+//THE HAS-BAG BUTTON
 		if ($row['hasBag']==0) $bagColor="green";
 		else $bagColor="black";
 		if ($row['accepted']==3) $hideHasBag="hidden";
@@ -996,8 +996,8 @@ function populateNewDonorsDiv($nhID, $ncid)
 	echo '		<input type="hidden" value="Accepted" style="padding: 5px; margin: 4px;" />	';
 	echo '	</form>	';
 
-			
-//THE DECLINE BUTTON	
+
+//THE DECLINE BUTTON
 
 	echo '	<form id="ncDeclineDonorForm'.$row['MemberID'].'" action="neighborhood.php?uid='.$_GET['uid'].'&ncid='.$ncid.'&nh='. $nhID .'&accept=false&tool=newDonorsDiv" method="post" >';
 	echo '		<input type="hidden" name="fdID" value="'.$fdID.'" />	';
@@ -1006,25 +1006,25 @@ function populateNewDonorsDiv($nhID, $ncid)
 	echo '	</form>		';
 	echo '<hr/><hr/>';
 	}//end while
-}	
-	
+}
+
 function acceptDonor($fdID, $latLong, $ncid)
 {
 		$sql=mysql_fetch_array(mysql_query("SELECT FirstName,LastName FROM members WHERE MemberID=".$ncid));
 		$ncName=$sql['FirstName'].' '.$sql['LastName'];
-		
+
 		$newNotes='<p style="width: 360px; background-color: blue; color: white; padding: 15px; font-size: 16px; font-weight: bolder; border: 1px solid blue; border-radius: 10px;">
-		'.getTodaysDate().': Accepted by '.$ncName.'</p>'; 
-	
+		'.getTodaysDate().': Accepted by '.$ncName.'</p>';
+
 	$sql="UPDATE members SET accepted=1,WCNotes='".$newNotes."',latLong='".$latLong."' WHERE MemberID=".$fdID;
 	//echo '<script type="text/javascript"> 		alert("acceptDonor():\n		You ACCEPTED a donor\n		ID: '.$fdID.'\n		sql to execute:'.$sql.'	");</script>	';
-		
+
 	$result=mysql_query($sql);
 	if($result)
 	{	//echo '<script type="text/javascript"> 		alert("acceptDonor():\n result returned true	");</script>	';
 	}
 	else
-		echo '<script type="text/javascript"> 
+		echo '<script type="text/javascript">
 		alert("acceptDonor():\n result returned FALSE\n\n Error:\n'.mysql_error().'	\n\nSQL attempt:\n'.$sql.'");</script>	';
 }
 
@@ -1035,25 +1035,25 @@ function declineDonor($fdID,$ncid,$newNotes,$dbh)
 	$ncNameSql="Select FirstName,LastName FROM members WHERE MemberID=".$ncid;
 	$ncNameResult=mysql_fetch_array(mysql_query($ncNameSql));
 	$ncName=$ncNameResult['FirstName'].' '.$ncNameResult['LastName'];
-	
-	//get the new donor's WCNotes 
+
+	//get the new donor's WCNotes
 	//$notesSql="SELECT WCNotes FROM members WHERE MemberID=".$fdID;
 	//$notesResult=mysql_fetch_array(mysql_query($notesSql));
 	//$notes=$notesResult['WCNotes'];
 	//get the updated notes from $_POST
-	
-	//if newNotes != notes, update new donor's 
+
+	//if newNotes != notes, update new donor's
 	//	Notes with "Declined by SoAndSo on DateTimeStamp"
 	//if($newNotes!=$notes)
-	  	$newNotes='<p style="width: 360px; background-color: #f9e725; color: #b4005f; padding: 15px; font-size: 16px; font-weight: bolder; border: 1px solid #f9e725; border-radius: 10px;">'.getTodaysDate().': Declined by '.$ncName.' </p>'; 
+	  	$newNotes='<p style="width: 360px; background-color: #f9e725; color: #b4005f; padding: 15px; font-size: 16px; font-weight: bolder; border: 1px solid #f9e725; border-radius: 10px;">'.getTodaysDate().': Declined by '.$ncName.' </p>';
 	//	set NHoodID=null
-		
-	//UPDATE new donor's WCNotes using prepared statement 
+
+	//UPDATE new donor's WCNotes using prepared statement
 	$query=$dbh->prepare("UPDATE members SET WCNotes=:theNotes, NHoodID=NULL, accepted=0 WHERE MemberID=".$fdID);
 	$query->bindParam(':theNotes', $theNotes);
-	
+
 	$theNotes=trim($newNotes);
-	
+
 	try
 	{		$query->execute();	}
 	catch(PDOException $e)
@@ -1073,12 +1073,12 @@ function allDcContactInfo()
 	$theList='	<table>
 	';
 	$sql="SELECT FirstName, LastName, PreferredEmail, PreferredPhone FROM members,groups WHERE (members.Status='ACTIVE' OR members.Status='INACTIVE') and	members.MemberID=groups.uID and groups.DC=1 ORDER BY LastName";
-	
+
 	//debug
 		//echo 'allNcContactInfo SQL: '.$sql;
-		
+
 	$result=mysql_query($sql);
-	
+
 	while($row=mysql_fetch_array($result))
 	{
 		$theList.= '<tr onmouseover="this.style.backgroundColor=\'#aef871\'" onmouseout="this.style.backgroundColor=\'white\'">
@@ -1086,7 +1086,7 @@ function allDcContactInfo()
 			<td style="padding: 0px 5px 0px 5px"><a href="mailto:'.$row['PreferredEmail'].'"</a>'.$row['PreferredEmail'].'</td>
 			<td style="padding: 0px 5px 0px 5px">'.$row['PreferredPhone'].'</td>
 			</tr>';
-			
+
 	}
 	$theList.='</table>';
 	return $theList;
@@ -1098,13 +1098,13 @@ function allNcContactInfo()
 	$theList='<table>
 	';
 	$sql="SELECT FirstName, LastName, PreferredEmail, PreferredPhone FROM members,groups WHERE	(members.Status='ACTIVE' OR members.Status='INACTIVE') and members.MemberID=groups.uID and groups.NC=1  ORDER BY LastName";
-	
+
 	//debug
 		//echo 'allNcContactInfo SQL: '.$sql;
-	
+
 	$result=mysql_query($sql);
-	
-	
+
+
 	while($row=mysql_fetch_array($result))
 	{
 		$theList.= '<tr onmouseover="this.style.backgroundColor=\'#aef871\'" onmouseout="this.style.backgroundColor=\'white\'">
@@ -1112,7 +1112,7 @@ function allNcContactInfo()
 			<td style="padding: 0px 5px 0px 5px"><a href="mailto:'.$row['PreferredEmail'].'"</a>'.$row['PreferredEmail'].'</td>
 			<td style="padding: 0px 5px 0px 5px">'.$row['PreferredPhone'].'</td>
 			</tr>';
-	
+
 	}
 	$theList.='</table>';
 	return $theList;
@@ -1123,13 +1123,13 @@ function recordedTallys()
 	$theList='<table>
 	';
 	$sql="SELECT FirstName, LastName, PreferredEmail, PreferredPhone FROM members,groups WHERE	(members.Status='ACTIVE' OR members.Status='INACTIVE') and members.MemberID=groups.uID and groups.NC=1  ORDER BY LastName";
-	
+
 	//debug
 		//echo 'allNcContactInfo SQL: '.$sql;
-	
+
 	$result=mysql_query($sql);
-	
-	
+
+
 	while($row=mysql_fetch_array($result))
 	{
 		$theList.= '<tr onmouseover="this.style.backgroundColor=\'#aef871\'" onmouseout="this.style.backgroundColor=\'white\'">
@@ -1137,7 +1137,7 @@ function recordedTallys()
 			<td style="padding: 0px 5px 0px 5px"><a href="mailto:'.$row['PreferredEmail'].'"</a>'.$row['PreferredEmail'].'</td>
 			<td style="padding: 0px 5px 0px 5px">'.$row['PreferredPhone'].'</td>
 			</tr>';
-	
+
 	}
 	$theList.='</table>';
 	return $theList;
@@ -1150,32 +1150,29 @@ function deleteMember($MemberID)
 {
 	$sql="DELETE FROM members WHERE MemberID=".$MemberID;
 	$result=mysql_query($sql);
-	
+
 	if($result)
 		echo 'alert("member deleted")';
-	else 
+	else
 		echo 'alert("Delete function failed<br/>
 		'.mysql_error.'")';
 }
 
+function setDefaultPickupDateValues($MONTH_CODE, $MONTH_SHORT)
+{
+	opendb();
+	$sql="UPDATE dropdownmenulists SET MONTH_CODE=$MONTH_CODE, MONTH_SHORT=$MONTH_SHORT WHERE LIST_NAME='PICKUP_MONTH'";
+	$query=mysql_query($sql);
+	if(!$query) echo mysql_error();
+}
 
-
-
-
-
-
-
-
-
-
+function getDefaultPickupDateValues()
+{
+	$row=mysql_fetch_array(mysql_query("SELECT * FROM dropdownlists WHERE LIST_NAME='PICKUP_MONTH'"));
+	$MONTH_CODE = $row['MONTH_CODE'];
+	$MONTH_SHORT = $row['MONTH_SHORT'];
+	return {$MONTH_CODE, $MONTH_SHORT};
+}
 
 //	END OF FUNCTIONS
 ?>
-
-
-
-
-
-
-
-
