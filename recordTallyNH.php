@@ -44,9 +44,10 @@
 		$nhName=$nhname['NHName'];
 
 		$defaultPickupDateValues = getDefaultPickupDateValues();
-		echo '$<h1>'.$defaultPickupDateValues.'</h1>';
-		// $monthCode = $defaultPickupDateValues['MONTH_CODE'];
-		// $monthShort = $defaultPickupDateValues['MONTH_SHORT'];
+		$monthCode = $defaultPickupDateValues['MONTH_CODE'];
+		$monthShort = $defaultPickupDateValues['MONTH_SHORT'];
+
+		echo "<h1>'.$monthCode.'</h1>";
 
 		echo '<h1 style="color:green; padding-bottom: 15px;"> Record Tally for '.$nhName.' </h1> ';
 
