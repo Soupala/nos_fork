@@ -67,6 +67,10 @@
 		$nhname=mysql_fetch_array($sql);
 		$nhName=$nhname['NHName'];
 
+		$defaultPickupDateValues = getDefaultPickupDateValues();
+		$monthCode = $defaultPickupDateValues['MONTH_CODE'];
+		$monthShort = $defaultPickupDateValues['MONTH_SHORT'];
+
 		echo '<h2 style="color:green;"> Recording Tallysheet for '.$nhName;
 
 		echo '<div class="widget" id="tallyFormDiv">';
@@ -84,7 +88,7 @@
 
 			echo '
 				<select name="pickupMonth">
-					<option value="06">Jun </option>
+					<option value="'.$monthCode.'">'.$monthShort.' </option>
 					<option value="02">Feb </option>
 					<option value="04">Apr</option>
 					<option value="06">Jun </option>
