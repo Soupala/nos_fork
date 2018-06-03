@@ -11,10 +11,6 @@
 
 	opendb();
 
-	$defaultPickupDateValues = getDefaultPickupDateValues();
-	$monthCode = $defaultPickupDateValues['MONTH_CODE'];
-	$monthShort = $defaultPickupDateValues['MONTH_SHORT'];
-
 ?>
 <head>
 	<?php
@@ -47,6 +43,11 @@
 		$nhname=mysql_fetch_array($sql);
 		$nhName=$nhname['NHName'];
 
+		$defaultPickupDateValues = getDefaultPickupDateValues();
+		echo '$<h1>'.$defaultPickupDateValues.'</h1>'
+		$monthCode = $defaultPickupDateValues['MONTH_CODE'];
+		$monthShort = $defaultPickupDateValues['MONTH_SHORT'];
+
 		echo '<h1 style="color:green; padding-bottom: 15px;"> Record Tally for '.$nhName.' </h1> ';
 
 		echo '<div id="tallyFormDiv">';
@@ -63,7 +64,7 @@
 			<span style="font-size: 18px; color: red; padding: 5px; font-weight: bolder;"> Choose Nearest Month & Year </span>
 
 				<select style="font-size: 16px; margin-left: 15px; color: red; font-weight: bolder; border: 1px solid #bbb1a7; border-radius: 5px;" name="pickupMonth">
-					<option style="background-color:yellow;" value=".'$MONTH_CODE'."}>.'$MONTH_SHORT'; </option>
+					<option style="background-color:yellow;" value=".'$monthCode'."}>.'$monthShort'.</option>
 					<option value="02">Feb </option>
 					<option value="04">Apr</option>
 					<option value="06">Jun </option>
