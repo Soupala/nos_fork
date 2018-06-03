@@ -84,7 +84,7 @@
 
 			echo '
 				<select name="pickupMonth">
-					<option value="06">June </option>
+					<option value="06">Jun </option>
 					<option value="02">Feb </option>
 					<option value="04">Apr</option>
 					<option value="06">Jun </option>
