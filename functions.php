@@ -1169,9 +1169,7 @@ function setDefaultPickupDateValues($MONTH_CODE, $MONTH_SHORT)
 function getDefaultPickupDateValues()
 {
 	$row=mysql_fetch_array(mysql_query("SELECT * FROM dropdownlists WHERE LIST_NAME='PICKUP_MONTH'"));
-	$MONTH_CODE = $row['MONTH_CODE'];
-	$MONTH_SHORT = $row['MONTH_SHORT'];
-	return {$MONTH_CODE, $MONTH_SHORT};
+	return $row;
 }
 
 //	END OF FUNCTIONS

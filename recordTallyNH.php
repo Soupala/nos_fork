@@ -12,8 +12,8 @@
 	opendb();
 
 	$defaultPickupDateValues = getDefaultPickupDateValues();
-	$monthCode = $defaultPickupDateValues.MONTH_CODE;
-	$monthShort = $defaultPickupDateValues.MONTH_SHORT;
+	$monthCode = $defaultPickupDateValues['MONTH_CODE'];
+	$monthShort = $defaultPickupDateValues['MONTH_SHORT'];
 
 ?>
 <head>
