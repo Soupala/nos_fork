@@ -15,15 +15,15 @@ include ('config.php');
 // 	$ncPinColor="0088FF";	// color for neighborhood coordinator pins
 // 	$fdPinColor="00FF00";	// color for food donor pins
 // 	$dcPinColor="FF0000";	// color for district coordinator pins
-	
-	
-	
-	
-	
+
+
+
+
+
 	//////////////////////////////////////////////////////////////////
 	//		CHANGE THE BELOW AT YOUR OWN RISK!						//
 	//////////////////////////////////////////////////////////////////
-	
+
 function codeAddressDiv()
 {	echo '	<div style="position:absolute; width:55%; border-style:solid;">
 				<input id="newAddress" type="textbox" value="Enter An Address" />
@@ -36,11 +36,11 @@ function codeAddressDiv()
 
 function jsCodeAddress()
 {
-	/**	transforms the address in id="address" to coordinates in id="myCoords" when 	
+	/**	transforms the address in id="address" to coordinates in id="myCoords" when
  *	Encode button is clicked */
 	echo '	function codeAddress(address, latLongBox) {
 			geocoder.geocode( { \'address\': address}, function(results, status) {
-				if (status == google.maps.GeocoderStatus.OK) 
+				if (status == google.maps.GeocoderStatus.OK)
 					{
 						map.setCenter(results[0].geometry.location);
 						var marker = new google.maps.Marker({
@@ -48,8 +48,8 @@ function jsCodeAddress()
 							position: results[0].geometry.location
 						});
 						document.getElementById(latLongBox).value=results[0].geometry.location;
-					} 
-				else 
+					}
+				else
 				{alert("Geocode was not successful for the following reason: " + status);}
 			});
 		}
@@ -82,13 +82,13 @@ function saveDistrictCenter($_POST, $dID)
 
 function saveDistrictNotes($_POST)
 {
-	
+
 	$notes=addslashes($_POST['notes']);
 	$dID=$_POST['DistrictID'];
 	//echo ' notes: '.$notes.'<br/> districtID: '.$dID.'<br/>';
 //PARAMETERIZE THIS:
 	mysql_query("UPDATE districts SET notes='".$notes."' WHERE DistrictID='".$dID."';");
-	
+
 }
 
 
@@ -105,9 +105,9 @@ function saveDistrictNotes($_POST)
 		// '. mysql_error().'\n\n
 		// the SQL was:\n'.$sql.'")</script>';
 
-	// //logDBChange($sql);		
-		
-		
+	// //logDBChange($sql);
+
+
 // }
 
 
@@ -120,43 +120,43 @@ function allDonorMarkers()
 	}
 }
 
- 
+
 function donorMarkers($nhID, $image="icons/mapDotGray.png")
 {
 	//echo '<br/>You\'re in donorMarkers()<br/>';
-	
+
 	//$sql="SELECT MemberID,FirstName,LastName,latLong,House,StreetName,Apt,City,State,Zip,PreferredEmail,PreferredPhone,FD FROM members,groups WHERE NHoodID=".$nhID." AND members.MemberID=groups.uID ORDER BY routeOrder";
 	$sql="SELECT * FROM members,groups WHERE NHoodID=".$nhID."  AND (Status='ACTIVE' OR Status='INACTIVE') AND members.MemberID=groups.uID ORDER BY routeOrder";
 	$result=mysql_query($sql);
-	
+
 	// if($sql)
-	
+
 	while($nhoods=mysql_fetch_array($result)	)
 		{
-			
+
 			$image="icons/mapDotGray.png";
 			$zindex='2';
-			
+
 			if($nhoods['FD']==1 && $nhoods['accepted']==1 && $nhoods['hasBag']==1)
 			{	$image="icons/mapDotGreen.png";
 				$zindex='2';
 			}
-			
+
 			// else if($nhoods['FD']==1 && ($nhoods['accepted']==1 || $nhoods['hasBag']==0))
 			// {	$image="icons/mapDotYellow.png";
 				// $zindex='3';
 			// }
-			
+
 			// else if($nhoods['FD']==1 && ($nhoods['accepted']==0 || $nhoods['hasBag']==1))
 			// {	$image="icons/mapDotYellow.png";
 				// $zindex='3';
 			// }
-			
+
 			else if($nhoods['FD']==1 && ($nhoods['accepted']==0 || $nhoods['hasBag']==0))
 			{	$image="icons/mapDotYellow.png";
 				$zindex='3';
 			}
-			
+
 			//else
 			// {
 				//$image="icons/mapDotGray.png";
@@ -173,11 +173,11 @@ function donorMarkers($nhID, $image="icons/mapDotGray.png")
 				$zindex='6';
 			}
 			//if($nhoods['latLong'] != "0")
-			if(trim($nhoods['latLong'])=="0") echo '//alert("member # '.$nhoods['MemberID'].' needs to be geocoded");	
+			if(trim($nhoods['latLong'])=="0") echo '//alert("member # '.$nhoods['MemberID'].' needs to be geocoded");
 			';
 			else
 			{
-				
+
 				//$memberName=$nhoods['FirstName'].' '.$nhoods['LastName'];
 				$latlong=$nhoods['latLong'];
 				$markerName='point'.$nhoods['MemberID'];
@@ -185,14 +185,14 @@ function donorMarkers($nhID, $image="icons/mapDotGray.png")
 				//$email=$nhoods['PreferredEmail'];
 				//$phone=$nhoods['PreferredPhone'];
 				//echo 'setMarker(new google.maps.LatLng'.$nhoods['latLong'].', "'.$tooltip.'");';
-				
+
 				makeMapMarkerImage($image, $latlong, $markerName);
 				markerInfoWindow($nhoods['MemberID']);
 				//markerInfoWindow($markerName,$memberName,$address,$email,$phone);
 			}
-			
+
 		}//end while
-		
+
 }//end function
 
 
@@ -200,32 +200,32 @@ function unassignedDonorMarkers()
 {//folks who haven't been assigned a neighborhood yet
 
 	//Mica: I put ' ' where NHoodID=NULL below, and got an interesting result.  There is one donor in the database who has 0 for their NHoodID, and they show up on the map for some reason.
-	
+
 
 	$sql="SELECT * FROM members,groups WHERE (NHoodID='NULL' OR NHoodID='' OR NHoodID IS NULL) AND (Status='ACTIVE' OR Status='INACTIVE') AND members.MemberID=groups.uID ";
 	$result=mysql_query($sql);
 
 	while($nhoods=mysql_fetch_array($result)	)
 		{
-			 
+
 			//$image="icons/marker_split.png";
 			$image="icons/mapDotYellow.png";
 			$zindex='2';
-			
-			if(trim($nhoods['latLong'])=="0") echo '//alert("member # '.$nhoods['MemberID'].' needs to be geocoded");	
+
+			if(trim($nhoods['latLong'])=="0") echo '//alert("member # '.$nhoods['MemberID'].' needs to be geocoded");
 			';
 			else
 			{
 				$latlong=$nhoods['latLong'];
 				$markerName='point'.$nhoods['MemberID'];
-				
+
 				makeMapMarkerImage($image, $latlong, $markerName);
 				markerInfoWindow($nhoods['MemberID']);
 				//markerInfoWindow($markerName,$memberName,$address,$email,$phone);
 			}
-			
+
 		}//end while
-		
+
 }//end function
 
 
@@ -236,26 +236,26 @@ function unacceptedDonorMarkers()
 
 	while($nhoods=mysql_fetch_array($result)	)
 		{
-			 
+
 			//$image="icons/marker_split.png";
 			$image="icons/mapDotYellow.png";
 			$zindex='2';
-			
-			// if(trim($nhoods['latLong'])=="0") echo '//alert("member # '.$nhoods['MemberID'].' needs to be geocoded");	
+
+			// if(trim($nhoods['latLong'])=="0") echo '//alert("member # '.$nhoods['MemberID'].' needs to be geocoded");
 			// ';
 			// else
 			if(trim($nhoods['latLong'])!="0")
 			{
 				$latlong=$nhoods['latLong'];
 				$markerName='point'.$nhoods['MemberID'];
-				
+
 				makeMapMarkerImage($image, $latlong, $markerName);
 				markerInfoWindow($nhoods['MemberID']);
 				//markerInfoWindow($markerName,$memberName,$address,$email,$phone);
 			}
-			
+
 		}//end while
-		
+
 }//end function
 
 
@@ -267,15 +267,15 @@ function allMemberMarkers($nhID, $fdColor="00FF00", $ncColor="FF0000", $dcColor=
 		$pinColor='';
 		$pinLabel='';
 		$zindex='';
-		
+
 		$sql=mysql_query("SELECT MemberID,FirstName,LastName,latLong,NC,DC,FD FROM members,groups WHERE NHoodID=".$nhID." AND members.MemberID=groups.uID ORDER BY routeOrder");
-		
+
 		while($nhoods=mysql_fetch_array($sql)	)
-		{	
+		{
 			$pinColor="FFFFFF";
 			$pinLabel='';
 			$zindex='1';
-			
+
 			if($nhoods['FD']==1)
 			{	$pinColor=$fdColor;
 				$pinLabel='FD';
@@ -292,9 +292,9 @@ function allMemberMarkers($nhID, $fdColor="00FF00", $ncColor="FF0000", $dcColor=
 				$pinLabel='DC';
 				$zindex='4';
 			}
-			
-			
-			
+
+
+
 			if(trim($nhoods['latLong']) != "0")
 			{
 			$tooltip=$nhoods['FirstName'].' '.$nhoods['LastName'];
@@ -302,9 +302,9 @@ function allMemberMarkers($nhID, $fdColor="00FF00", $ncColor="FF0000", $dcColor=
 			echo 'var position'.$nhoods['MemberID'].'= new google.maps.LatLng'.$nhoods['latLong'].';
 			';
 			makeMapMarkerImage();
-			
+
 			//makeMapMarker($nhoods['MemberID'], $nhoods['MemberID'], $pinLabel, $tooltip, $zindex);
-			
+
 			// echo 'var marker'.$nhoods['MemberID'].' = new google.maps.Marker({
 					// position: position'.$nhoods['MemberID'].',
 					// map: map,
@@ -318,9 +318,9 @@ function allMemberMarkers($nhID, $fdColor="00FF00", $ncColor="FF0000", $dcColor=
 	}
 
 
-	
+
 function makeMapMarker($markerName, $position, $pinColor="FFFFFF", $pinLabel="*", $tooltip="no data", $zindex="3")
-{	
+{
 	echo 'var marker'.$markerName.' = new google.maps.Marker({
 					position: position'.$position.',
 					map: map,
@@ -336,7 +336,7 @@ function makeMapMarkerImage($image, $position, $markerName)
 	echo '//******************************************************
 	';
 	//echo 'var '.$markerName.'= new google.maps.LatLng'.$position.';			';
-	
+
 	echo "
 		var ".$markerName."LatLng = new google.maps.LatLng".$position.";
 		var ".$markerName." = new google.maps.Marker({
@@ -344,21 +344,21 @@ function makeMapMarkerImage($image, $position, $markerName)
 			map: map,
 			icon: '".$image."'
 			});
-			
+
 	";
-	
+
 	echo '//******************************************************
 	';
 }//end function
 
 function ncImageMarkers($image="icons/mapDotNC.png",$nhoodid="", $showInfo=true)
 	{
-			
-		
+
+
 		if(!$nhoodid=='')
 			$nhood="AND members.NHoodID=".$nhoodid;
 		else $nhood="";
-		
+
 		$sql="SELECT MemberID,FirstName,LastName,latLong,PreferredEmail,House,StreetName,Apt,City,State,Zip,PreferredPhone FROM members,groups WHERE members.MemberID=groups.uID AND groups.NC=1 AND (Status='ACTIVE' OR Status='INACTIVE') ".$nhood;
 //	echo 'alert("NCImageMarkers SQL:\n'.$sql.'")';
 		$result=mysql_query($sql);
@@ -366,10 +366,10 @@ function ncImageMarkers($image="icons/mapDotNC.png",$nhoodid="", $showInfo=true)
 		$noPinCount=0;
 		if($result)
 		while($ncs=mysql_fetch_array($result)	)
-		{	
+		{
 			echo '//NCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNC
 				';
-			
+
 			if(trim($ncs['latLong'])=="0")
 			{
 				$noPinCount++;
@@ -383,29 +383,29 @@ function ncImageMarkers($image="icons/mapDotNC.png",$nhoodid="", $showInfo=true)
 				$address=$ncs['House'].' '.$ncs['StreetName'].' '.$ncs['Apt'].' '.$ncs['City'].', '.$ncs['State'].' '.$ncs['Zip'];
 				$email=$ncs['PreferredEmail'];
 				$phone=$ncs['PreferredPhone'];
-				
+
 				makeMapMarkerImage($image, $position, $markerName);
 				if($showInfo)
 					//markerInfoWindow($markerName,$memberName,$address,$email,$phone);
 					markerInfoWindow($ncs['MemberID'],true);
 				$count++;
 			}
-			
+
 			echo '//NCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNCNC
 				';
-	
+
 		}//end while
 
 	}//end function
 
 function ncMarkers($ncPinColor)
 	{
-		
+
 		$sql=mysql_query("SELECT FirstName,LastName,latLong FROM members,groups WHERE members.MemberID=groups.uID AND groups.NC=1 ORDER BY routeOrder");
 		$count=0;
 		$noPinCount=0;
 		while($ncs=mysql_fetch_array($sql)	)
-		{	
+		{
 			if(trim($ncs['latLong'])=="0")
 			{
 				$noPinCount++;
@@ -434,25 +434,25 @@ function ncMarkers($ncPinColor)
 
 function dcImageMarkers($image="icons/mapDotDC.png", $showInfo=true)
 	{
-		
-		
+
+
 		$sql=mysql_query("SELECT MemberID,FirstName,LastName,latLong,PreferredEmail,House,StreetName,Apt,City,State,Zip,PreferredPhone FROM members,groups WHERE members.MemberID=groups.uID AND groups.DC=1 ");
 
 		$count=0;
 		$noPinCount=0;
 		while($dcs=mysql_fetch_array($sql)	)
-		{	
+		{
 			echo '//DCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDC
-					//	
+					//
 					';
-			
+
 			if(trim($dcs['latLong'])=="0")
 			{
 				$noPinCount++;
 				echo '// DC '.$dcs['FirstName'].' '.$dcs['LastName'].' HAS NO LAT/LNG
 				';
 			}
-			else 
+			else
 			{
 				$position=$dcs['latLong'];
 				$markerName='point'.$dcs['MemberID'];
@@ -461,30 +461,30 @@ function dcImageMarkers($image="icons/mapDotDC.png", $showInfo=true)
 				$address=$dcs['House'].' '.$dcs['StreetName'].' '.$dcs['Apt'].' '.$dcs['City'].', '.$dcs['State'].' '.$dcs['Zip'];
 				$email=$dcs['PreferredEmail'];
 				$phone=$dcs['PreferredPhone'];
-				
+
 				makeMapMarkerImage($image, $position, $markerName);
 				if($showInfo)
 					//markerInfoWindow($markerName,$memberName,$address,$email,$phone);
 					markerInfoWindow($dcs['MemberID']);
 				$count++;
 			}
-			
+
 			echo '//
 				//DCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDCDC
 				';
-	
+
 		}//end while
-	
+
 	}//end function
-	
+
 function dcMarkers()
 	{
-		
+
 		$sql=mysql_query("SELECT FirstName,LastName,latLong FROM members,groups WHERE members.MemberID=groups.uID AND groups.DC=1");
 		$count=0;
 		$noPinCount=0;
 		while($dcs=mysql_fetch_array($sql)	)
-		{	
+		{
 			if(trim($dcs['latLong'])=="0")
 			{
 				$noPinCount++;
@@ -510,7 +510,7 @@ function dcMarkers()
 
 	}
 
-	
+
 ////////////////////////////////////////////
 //		get district center's Lat/Long from districtID
 function getDistrictCenter($districtID)
@@ -518,7 +518,7 @@ function getDistrictCenter($districtID)
 	$result=mysql_query("SELECT DCID,center FROM districts WHERE DistrictID=".$districtID);
 	$row=mysql_fetch_array($result);
 	if($row['center'] == 0)
-	{	
+	{
 		return getMemberLatLong($row['DCID']);
 	}
 	else return $row['center'];
@@ -534,7 +534,7 @@ function getNhoodCenter($nhoodID)
 	$result=mysql_query("SELECT NCID,center FROM neighborhoods WHERE NHoodID=".$nhoodID);
 	$row=mysql_fetch_array($result);
 	if($row['center'] == 0)
-	{	
+	{
 		return getMemberLatLong($row['NCID']);
 	}
 	else return $row['center'];
@@ -566,8 +566,8 @@ function makeNhoodPolygons($strokeColor="00AA00", $strokeOpacity="0.8",$fillColo
 				{
 					$polyName='Polygon'.$row['NHoodID'];
 					echo 'var '.$polyName.';';
-					
-					
+
+
 					if($row['polygon'] == "0")
 						//come up with some default editable polygon
 						echo 'There is no polygon for this area in the database';
@@ -582,15 +582,15 @@ function makeNhoodPolygons($strokeColor="00AA00", $strokeOpacity="0.8",$fillColo
 							editable: true
 							});
 						';
-					
-					
+
+
 					echo $polyName.'.setMap(map);';
 				}//end if
 			}//end while
 		}//end function
-	
-	
-	
+
+
+
 ////////////////////////////////////////////
 //		create district polygons
 
@@ -604,7 +604,7 @@ function makeDistrictPolygons($strokeColor="AA0000", $strokeOpacity="0.8",$fillC
 				{
 					echo 'var '.$row['DistrictName'].'Polygon;
 					';
-					
+
 					if($row['polygon'] == "0")
 					{	//come up with some default editable polygon
 						echo 'There is no polygon for this area in the database';
@@ -614,7 +614,7 @@ function makeDistrictPolygons($strokeColor="AA0000", $strokeOpacity="0.8",$fillC
 							'.$row['polygon'].'
 							];
 						';
-							
+
 					echo $row['DistrictName'].'Polygon = new google.maps.Polygon({
 							paths: '.$row['DistrictName'].'Coords,
 							strokeColor: "#'.$strokeColor.'",
@@ -625,21 +625,21 @@ function makeDistrictPolygons($strokeColor="AA0000", $strokeOpacity="0.8",$fillC
 							editable: true
 						});
 					';
-					
+
 					echo $row['DistrictName'].'Polygon.setMap(map);';
 				}
 			}
 		}
 
-		
+
 function markerInfoWindow($memberID, $nhNumDonors=false)
 {
 	$result=mysql_fetch_array(mysql_query("SELECT MemberID,FirstName,LastName,House,StreetName,Apt,City,State,Zip,PreferredEmail,PreferredPhone,NHoodID, NC FROM members, groups WHERE members.MemberID=groups.uID AND MemberID=".$memberID));
-	
+
 	if ($result['NC']==1)
 		$nhNumDonors=true;
-		
-		
+
+
 	$markerName='point'.$result['MemberID'];
 	$memberName=$result['FirstName'].' '.$result['LastName'];
 	//$lastName=$ncs['LastName'];
@@ -650,12 +650,12 @@ function markerInfoWindow($memberID, $nhNumDonors=false)
 	if(isset($result['PreferredPhone'])&& $result['PreferredPhone']!='')
 		$phone=$result['PreferredPhone'];
 	else $phone="No Phone Number Set";
-	
+
 	if(isset($result['NHoodID']))
 	{	$nhname=mysql_fetch_array(mysql_query("SELECT NHName FROM neighborhoods WHERE NHoodID=".$result['NHoodID']));
 	}
 	else $nhname['NHName']="No Neighborhood Set";
-	
+
 	if($nhNumDonors)
 	{	$numDonors="'<b>Donors in neighborhood:</b> ".getNumNhDonors($result['NHoodID'])."<br/>'+
 		";
@@ -665,10 +665,10 @@ function markerInfoWindow($memberID, $nhNumDonors=false)
 		";
 		$dcName="'<b>DC: </b>".getDCNameFromNhoodID($result['NHoodID'])."<br/>'+
 		";
-		$privateNotes="'<b>Private Notes (only visible to WC): </b>".getPrivateNotesFromNhoodID($result['NHoodID'])."<br/>'+
+		$privateNotes="
 		";
 	}
-	else 
+	else
 	{	$numDonors='';
 		$nhMaxDonors='';
 		$dName='';
@@ -702,12 +702,12 @@ function markerInfoWindow($memberID, $nhNumDonors=false)
 		".$markerName."infowindow.open(map,".$markerName.")
 		});
 	";
-}//end function 
+}//end function
 
-		
-		
-		
-		
+
+
+
+
 function saveRoutePoly($polygon,$nhoodID,$dbh)
 {
 	//echo '<script type="text/javascript">alert("saveRoutePoly() CALLED\n	 polygon='.addslashes($polygon).'\n nhoodID='.$nhoodID.'\ndbh loaded:'.isset($dbh).'");	</script>';
@@ -717,13 +717,13 @@ function saveRoutePoly($polygon,$nhoodID,$dbh)
 	// if($result)
 		// echo '<script type="text/javascript">alert("route Polyline updated. \n polyline:"'.$polygon.'");	</script>';
 	// else echo '<script type="text/javascript">alert("Error updating route polyline:\n'.mysql_error().'\n'.$sql.'");	</script>';
-	
+
 	$sql="UPDATE neighborhoods SET routePolyline=:polyline WHERE NHoodID=".$nhoodID;
 	$query=$dbh->prepare($sql);
 	$query->bindParam(':polyline', $polyline);
-	
+
 	$polyline=$polygon;
-	
+
 	try
 	{	//echo '<script type="text/javascript">alert("About to execute saveRoutePoly query");	</script>';
 		$query->execute();	}
@@ -732,17 +732,17 @@ function saveRoutePoly($polygon,$nhoodID,$dbh)
 		echo '<script type="text/javascript"> alert("saveRoutePoly() failed to UPDATE. \r\n Error: '.$e->getMessage().'\n Debug info: mapFunctions.php->saveRoutePoly()")</script>';
 		die();
 	}
-	
+
 	//echo '<script type="text/javascript">alert("SaveRoutePoly didn\'t throw any exceptions");	</script>';
-	
+
 	//logDBChange($sql);
-	
+
 }
-		
-		
-		
+
+
+
 function savePolygon()
-	{	
+	{
 /*		if($_GET['save']!="n")
 		{
 */
@@ -758,8 +758,8 @@ function savePolygon()
 		}
 */
 	}
-		
-		
+
+
 function getZoom($regionType, $regionID)
 {
 	if($regionType=="neighborhood")
@@ -777,7 +777,7 @@ function getZoom($regionType, $regionID)
 	else
 		return $result['zoom'];
 }
-		
+
 function saveZoom($regionType, $zoomValue, $regionID=0)
 {
 	if($regionType=="neighborhood")
@@ -789,10 +789,10 @@ function saveZoom($regionType, $zoomValue, $regionID=0)
 	if(!$sql)
 		echo '<script type="text/javascript"> alert("Zoom Level NOT saved. SQL error:'.mysql_error().'");</script>
 		';
-	
+
 }
-		
-		
+
+
 // function populateNewDonorsDiv($nhID, $ncid)
 // {
 	// $sql="SELECT * FROM members WHERE NHoodID=".$nhID." AND (accepted=0 OR hasBag=0) ";
@@ -801,11 +801,11 @@ function saveZoom($regionType, $zoomValue, $regionID=0)
 			// // echo '<script type="text/javascript"> alert("populateNewDonorsDiv() sql \n SUCCESSFUL");</script>	';
 		// // else
 			// // echo '<script type="text/javascript"> alert("populateNewDonorsDiv() sql \n UNSUCCESSFUL\n\n'.mysql_error().'\n\n The SQL query was:\n'.$sql.'");</script>	';
-			
+
 // //borrowed from unconfirmed.php->getUnconfirmedDonors()
-	// while($row=mysql_fetch_array($newDonors) )			//limit the number of records displayed 
+	// while($row=mysql_fetch_array($newDonors) )			//limit the number of records displayed
 	// {
-		
+
 		// $fdID=$row['MemberID'];
 		// $address=$row['House'].' '.$row['StreetName'].' ' .$row['City'].' '.$row['State'];
 		// $latLongBox="latLong".$row['MemberID'];
@@ -813,16 +813,16 @@ function saveZoom($regionType, $zoomValue, $regionID=0)
 			// $confirmed='checked="checked"';
 		// if($row['CONFIRMED']==FALSE)
 			// $confirmed="";
-			
-		
-			
+
+
+
 			// echo '<p style="text-align:left;">
 				// <b>'.  $row['FirstName'].' '.$row['LastName'].'</b><br />
 				// '.	$row['House'].' '.$row['StreetName'].'<br />
 				// '.	$row['City'].', '.$row['State'].' '.$row['Zip'].'
 				// </p>';
-				
-			// echo ' 		
+
+			// echo '
 				// <br />
 				// <b>Email:</b>	<a href="mailto: '.$row['PreferredEmail'].'">'.$row['PreferredEmail'].'</a>
 				// <br />
@@ -832,41 +832,41 @@ function saveZoom($regionType, $zoomValue, $regionID=0)
 
 // // DATE ENTERED AND GEOLOCATION
 	// echo '			Date Entered:
-				// <input type="text" name="ud_date_entered" id="ud_date_entered" value="'.$row['DateEntered'].'" readonly="readonly" /> 
+				// <input type="text" name="ud_date_entered" id="ud_date_entered" value="'.$row['DateEntered'].'" readonly="readonly" />
 				// <br />
 				// ';
 	// echo	'
-			
+
 				// <form id="ncAcceptDonorForm" action="neighborhood.php?nh='. $nhID .'&id='. $ncid .'&accept=true&tool=newDonorsDiv" method="post" >
 				// <input type="hidden" size="30" name="ud_latLong" id="'.$latLongBox.'" value="'.trim($row['latLong']).'"/>
 				// <br />
 				// <input type="button" name="ShowOnMap" value="Show Donor On Map" style="padding: 5px; margin-top: 5px;" onclick="addMarkerToMap(\''.$address.'\', \''.$latLongBox.'\');" />
 				// <br />
 				// ';
-				
-	// echo	'				
+
+	// echo	'
 				// <a style="text-align:center;" href="javascript:toggleTools(\'memberNotesDiv'.$fdID.'\');">
 				// <br /> Member Notes +/-</a><br/>
 				// <div id="memberNotesDiv'.$fdID.'" style="display:none">
 					// <textarea rows="3" cols="50" name="ud_notes" >'.$row['Notes'].'</textarea>
 				// </div>
-				// <a style="text-align:center;" href="javascript:toggleTools(\'pickupNotesDiv'.$fdID.'\');"> 
+				// <a style="text-align:center;" href="javascript:toggleTools(\'pickupNotesDiv'.$fdID.'\');">
 				// Pickup Notes +/-</a><br/>
 				// <div id="pickupNotesDiv'.$fdID.'" style="display:none">
 					// <textarea rows="2" cols="50" name="ud_punotes" style="width:100%; ">'.$row['PUNotes'].'</textarea>
 				// </div>
 				// <input type="hidden" name="ud_memberID" value="'.$row["MemberID"].'	" />';
 
-				
+
 // //THE ACCEPTED BUTTON
 
-				// echo '		
+				// echo '
 				// <br />
 				// <input type="hidden" name="fdID" value="'.$fdID.'" />	';
 				// //echo '		<input type="button" name="accept" value="Accept donor" document.getElementById(\'ncAcceptDonorForm\').submit();" />	';
 				// echo '	<input type="submit" value="Accepted" style="padding: 5px; margin: 4px;" />	';
 				// echo '	</form>		';
-// //THE HAS-BAG BUTTON	
+// //THE HAS-BAG BUTTON
 		// if ($row['hasBag']==0) $bagColor="red";
 		// else $bagColor="green";
 	// echo '
@@ -874,42 +874,42 @@ function saveZoom($regionType, $zoomValue, $regionID=0)
 	// echo '		<input type="hidden" name="fdid" value="'.$fdID.'" />	';
 	// echo '		<input type="button" name="hasbag" value="Has A Bag" style="padding: 5px; margin: 4px; color:'.$bagColor.'" onclick="document.getElementById(\'DonorHasBagForm'.$row['MemberID'].'\').submit();" />	';
 	// echo '	</form>				';
-			
-// //THE DECLINE BUTTON	
+
+// //THE DECLINE BUTTON
 
 	// echo '	<form id="ncDeclineDonorForm'.$row['MemberID'].'" action="neighborhood.php?nh='. $nhID .'&id='. $ncid .'&accept=false&tool=newDonorsDiv" method="post" >';
 	// echo '		<input type="hidden" name="fdID" value="'.$fdID.'" />	';
 	// echo ' 		<input type="hidden" name="memberNotes" value="'.$row['Notes'].'" />	';
 	// echo '		<input type="button" name="decline" value="Decline" style="padding: 5px; margin: 4px;" onclick="document.getElementById(\'ncDeclineDonorForm'.$row['MemberID'].'\').submit();" />	';
 	// echo '	</form>		';
-	
+
 		// echo '<hr/><hr/>';
 	// }//end while
 // }
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
 // function acceptDonor($fdID, $latLong)
 // {
 	// $wcnotesArray=mysql_fetch_array(mysql_query("SELECT WCNotes FROM members WHERE MemberID=".$fdID));
 		// $wcnotes= $wcnotesArray['WCNotes'];
 		// $wcnotes.='
 // '.getTodaysDate().':  Accepted to neighborhood';
-	
+
 	// $sql="UPDATE members SET accepted=1,WCNotes='".$wcnotes."',latLong='".$latLong."' WHERE MemberID=".$fdID;
 	// //echo '<script type="text/javascript"> 		alert("acceptDonor():\n		You ACCEPTED a donor\n		ID: '.$fdID.'\n		sql to execute:'.$sql.'	");</script>	';
-		
+
 	// $result=mysql_query($sql);
 	// if($result)
 	// {	//echo '<script type="text/javascript"> 		alert("acceptDonor():\n result returned true	");</script>	';
 	// }
 	// else
-		// echo '<script type="text/javascript"> 
+		// echo '<script type="text/javascript">
 		// alert("acceptDonor():\n result returned FALSE\n\n Error:\n'.mysql_error().'	\n\nSQL attempt:\n'.$sql.'");</script>	';
 // }
 
@@ -920,28 +920,28 @@ function saveZoom($regionType, $zoomValue, $regionID=0)
 	// $ncNameSql="Select FirstName,LastName FROM members WHERE MemberID=".$ncID;
 	// $ncNameResult=mysql_fetch_array(mysql_query($ncNameSql));
 	// $ncName=$ncNameResult['FirstName'].' '.$ncNameResult['LastName'];
-	// //get the new donor's WCNotes 
+	// //get the new donor's WCNotes
 	// $notesSql="SELECT WCNotes FROM members WHERE MemberID=".$fdID;
 	// $notesResult=mysql_fetch_array(mysql_query($notesSql));
 	// $notes=$notesResult['WCNotes'];
 	// //get the updated notes from $_POST
-	
-	// //if newNotes != notes, update new donor's 
+
+	// //if newNotes != notes, update new donor's
 	// //	Notes with "Declined by SoAndSo on DateTimeStamp"
 	// //if($newNotes!=$notes)
 		// $newNotes=$newNotes.'
  // on '.getTodaysDate().':   Declined by '.$ncName;
 	// //	set NHoodID=null
 	// // // // $sql="UPDATE members SET Notes='".$newNotes."' WHERE MemberID=".$fdID;
-	// // // // echo '<script type="text/javascript"> 
+	// // // // echo '<script type="text/javascript">
 		// // // // alert("declineDonor()\n	You DECLINED a donor\n 	fdID: '.$fdID.'\n	ncID: '.$ncID.'\n\n	notes: \n '.$newNotes.'\n\n sql that would be executed:\n '.$sql.'	\n\n date:\n '.date('M d Y').'	");</script>	';
-		
-	// //UPDATE new donor's WCNotes using prepared statement 
+
+	// //UPDATE new donor's WCNotes using prepared statement
 	// $query=$dbh->prepare("UPDATE members SET WCNotes=:theNotes, NHoodID=NULL WHERE memberID=".$fdID);
 	// $query->bindParam(':theNotes', $theNotes);
-	
+
 	// $theNotes=trim($newNotes);
-	
+
 	// try
 	// {		$query->execute();	}
 	// catch(PDOException $e)
@@ -955,9 +955,9 @@ function saveZoom($regionType, $zoomValue, $regionID=0)
 // //////////////////////
 	// $query=$dbh->prepare("UPDATE wholeproject SET data=:html WHERE miscName='welcomeEmail'");
 	// $query->bindParam(':html', $html);
-	
+
 	// $html=trim($content);
-	
+
 	// try
 	// {
 		// $query->execute();
@@ -975,7 +975,7 @@ function nhoodDonorDB()
 {
 	echo 'this is the donor database for this neighborhood';
 }
-		
+
 
 
 
@@ -1042,7 +1042,7 @@ function loadDistrictPolygon($did, $iseditable="false")
 		if($encodedPoly!='')
 		{
 			echo ' district'.$distID.'Coords =decodePath("'. $encodedPoly.' ");		';
-				
+
 			echo '
 			dPoly'.$distID.' = new google.maps.Polygon({
 			paths: district'.$distID.'Coords,
@@ -1259,13 +1259,13 @@ function donorsArray($nhoodID)
 		if($nhoods['DC']==1)
 		{
 			$image="icons/mapDotDC.png";
-			$zindex='7';	
+			$zindex='7';
 		}
 		if($nhoods['FD']==0 && $nhoods['NC']==0 &&$nhoods['DC']==0)
 		{	$image="icons/mapDotGray.png";
 		$zindex='10';
 		}
-			
+
 		if(trim($nhoods['latLong']) == "0")
 		{
 			$markerName='point'.$nhoods['MemberID'];
@@ -1286,10 +1286,10 @@ function donorsArray($nhoodID)
 		});
 
 		";
-				
+
 			//markerInfoWindow($nhoods['MemberID']);
 		}//end else
-			
+
 		//set it in the array
 		echo 'membersArray[numMembers-1]={"id":'.$nhoods['MemberID'].', "name": "'.$nhoods['FirstName'].' '.$nhoods['LastName'].'", "marker": '.$markerName.', "nhood":'.$nhoodID.' };	';
 		echo 'numMembers++;';
@@ -1324,7 +1324,7 @@ function saveRegionPolygon($_POST)
 		// 		$result=mysql_query($sql);
 		// 		if($result) echo '<script type="text/javascript"> alert("region saved. the sql was:\n '.$sql.'");</script>';
 		// 		else echo '<script type="text/javascript"> alert("region NOT saved. the sql was:\n '.$sql.'");</script>';
-			
+
 	}
 	else if($_POST['regionType']=="d")
 	{
@@ -1356,6 +1356,3 @@ function saveRegionPolygon($_POST)
 
 
 		?>
-
-
-
