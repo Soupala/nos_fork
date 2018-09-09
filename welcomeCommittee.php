@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<?php 
+<?php
 	include("securepage/nfp_password_protect.php");
 	include('functions.php');
 	include('mapFunctions.php');
 	$centerLatLong=getCityLatLong();
+	$myMapKey=getMapKey();
 	opendb();
 	$id=$_GET['id'];
-	
+
 // return to tool used before reloading the page
 	if(isset($_GET['tool']))
 		$tool=$_GET['tool'];
@@ -14,15 +15,15 @@
 	if(isset($_GET['panel']))
 		$panel=$_GET['panel'];
 	else $panel="left";
-	
-//do any saves necessary	
+
+//do any saves necessary
 	if(isset($_GET['saveEmail']) && isset($_POST['emailText']))
 	{
 		$dbh=openPDO();
 		saveEmail($_POST['emailText'],$dbh);
 	}
 	if(isset($_GET['saveZoom']))
-	{	
+	{
 		saveZoom("wholeproject", $_POST['zoomLevel'], $id);
 	}
 /*	if(isset($_GET['assign']))
@@ -90,7 +91,7 @@
 
 
 	<script type="text/javascript"	src="js/mapFunctions.js"> </script>
-	<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"> </script>
+	<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=<?php echo $myMapKey; ?>></script>
 	<script type="text/javascript">
 		function ShowHideDivs(idOfDivToShow)
 		{
@@ -98,39 +99,39 @@
 				document.getElementById("fullpagediv").style.display = "block";
 			else
 				document.getElementById("fullpagediv").style.display = "none";
-			
+
 			if(idOfDivToShow == "leftdiv")
 				document.getElementById("leftdiv").style.display = "block";
 			else
 				document.getElementById("leftdiv").style.display = "none";
 		}
-	
+
 		function renderEmail()
 		{
 			var theDiv = document.getElementById('renderedDiv');
 			var theContent = document.getElementById('emailText').value;
-			
+
 			theDiv.innerHTML = theContent;
-			
+
 			document.getElementById('emailTextDiv').style.display='none';
 			document.getElementById('renderedDiv').style.display='block';
 		}
-		
+
 		function editEmail()
 		{
 			// var theDiv = document.getElementById('renderedDiv');
 			// var theContent = document.getElementById('emailText');
-			
+
 			//theDiv.innerHTML = theContent;
-			
+
 			document.getElementById('emailTextDiv').style.display='block';
 			document.getElementById('renderedDiv').style.display='none';
 		}
 	</script>
-	
+
 
 <!--	----------------------------------------	-->
-	
+
 <!--	PAGINATION ATTEMPT VIA AJAX	-->
 <script type="text/javascript">
 //returns a xmlhttp request object
@@ -160,7 +161,7 @@ function getXMLHttp()
 function handleRequest(panel, tool, userid, page)
 {
 	var xmlHttp = getXMLHttp();
-	 
+
 	xmlHttp.onreadystatechange = function()
 	{
 		if(xmlHttp.readyState == 4)
@@ -195,20 +196,20 @@ function HandleFullDiv(response)
 		var map;
 		var geocoder;
 		var centerMarker;
-		function initialize() 
+		function initialize()
 		{
 				  var myTown = new google.maps.LatLng<?php echo $centerLatLong; ?>;
 				  var myOptions = {
 					zoom: <?php echo getWCZoom() ?>,
-					center: myTown, 
+					center: myTown,
 					mapTypeId: google.maps.MapTypeId.ROADMAP
 				  };
 		//create a geocoder to transform addresses into lat and Long
 				geocoder= new google.maps.Geocoder();
-		//put the map in the proper div		
+		//put the map in the proper div
 				  map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
-	
-	
+
+
 		//add the 'center' marker
 			centerMarker = new google.maps.Marker({
 					position: myTown, //<?php echo $centerLatLong; ?>,
@@ -217,28 +218,28 @@ function HandleFullDiv(response)
 					title: "The Center of the Map",
 					visible: false
 				});
-				
-				
+
+
 		//add in the NC markers
 			<?php  ncImageMarkers();//ncMarkers($ncPinColor); ?>
-			<?php //dcMarkers($dcPinColor); 
+			<?php //dcMarkers($dcPinColor);
 				unacceptedDonorMarkers();
 				//unassignedDonorMarkers();
 			?>
-			
+
 		//set the active toolPanel from before the page reloaded
 			//ShowHideDivs("<?php echo $tool ?>");
 			handleRequest('<?php echo $panel ?>', '<?php echo $tool ?>', <?php echo $id ?>, <?php echo $page ?>);
-			
-			
-			
-			
+
+
+
+
 		}//end initialize()
-/**	transforms the address in id="address" to coordinates in id="myCoords" when 	
+/**	transforms the address in id="address" to coordinates in id="myCoords" when
  *	Encode button is clicked */
 		function codeAddress(address, latLongBox) {
 			geocoder.geocode( { 'address': address}, function(results, status) {
-				if (status == google.maps.GeocoderStatus.OK) 
+				if (status == google.maps.GeocoderStatus.OK)
 					{
 						map.setCenter(results[0].geometry.location);
 						var marker = new google.maps.Marker({
@@ -246,22 +247,22 @@ function HandleFullDiv(response)
 							position: results[0].geometry.location
 						});
 						document.getElementById(latLongBox).value=results[0].geometry.location;
-					} 
-				else 
+					}
+				else
 				{alert("Geocode was not successful for the following reason: " + status);}
 			});
 		}
 	</script>
 </head>
 
- <body onload="initialize(); "> 
- 
+ <body onload="initialize(); ">
+
 <h1 style="color: #2f4b66; padding: 5px 5px 15px 15px;">Welcome Committee</h1>
 <br />
-	
- 
-  
-	<!-- TITLE BAR -->	
+
+
+
+	<!-- TITLE BAR -->
 		<div class="gearsWidget" >
 				<ul id="adminNav">
 		<!--		<li><a href="ncNotes.php?id=<?php //echo $id?>" >Edit NC Notes</a></li>	-->
@@ -272,30 +273,30 @@ function HandleFullDiv(response)
 				<li><a href="#" onclick="ShowHideDivs('fullpagediv'); handleRequest('full', 'email', <?php echo $id ?>,0);">Email Templates</a></li>
 				<li><a href="#" onclick="ShowHideDivs('leftdiv'); handleRequest('left', 'unconfirmed', <?php echo $id ?>,1);">Queue</a></li>
 				<!--<li><a href="#" onclick="ShowHideDivs('mapToolsDiv');">Other Map Tools</a></li> -->
-				
+
 				</ul>
 		</div>
 
-<!-- LEFT DIV (TOOLS)-->	
+<!-- LEFT DIV (TOOLS)-->
 	<div class="leftWidget" id="leftdiv">
-	
+
 	</div>
 
 <!-- FULL DIV (EMAIL, NC AND DC CONTACT LISTS	-->
 		<div class="fullWidget" id="fullpagediv" style="display:none;">
-		
-		</div>
-	
 
-	
-		
-		
-	
-<!--	The Map	-->	
-	<div class="mapWidget" id="map_canvas">	
-		<p style="color:purple">Map attempting to load.....if you've been waiting over 30 seconds,<br /> 
-		first check other webpages to see if your connection to the internet is working. Contact your system administrator for additional assistance.</p>	
-	</div>	
+		</div>
+
+
+
+
+
+
+<!--	The Map	-->
+	<div class="mapWidget" id="map_canvas">
+		<p style="color:purple">Map attempting to load.....if you've been waiting over 30 seconds,<br />
+		first check other webpages to see if your connection to the internet is working. Contact your system administrator for additional assistance.</p>
+	</div>
 
 
 </body>
@@ -308,17 +309,17 @@ function HandleFullDiv(response)
 
 
 <?php
-	
+
 function saveUnconfirmedData($_POST)
 {
 	$dbh=openPDO();
 	//debug
 		//echo '<script type="text/javascript">alert(saveUnconfirmedData() (at the bottom of welcomeCommittee-ajax.php) has been called!<br/>);</script>';
-	
+
 	//check if the donor has been accepted yet
 		$sql=mysql_query("SELECT accepted, WCNotes FROM members WHERE MemberID=".$_POST['ud_memberID']);
 		$accepted=mysql_fetch_array($sql);
-	
+
 			$query=$dbh->prepare("UPDATE members SET NHoodID=:nhName, Notes=:notes, PUNotes=:punotes,WCNotes=:wcnotes, latLong=:latlong, WCEmail=:wcEmail, NCEmail=:ncEmail WHERE MemberID=:uID");
 		$query->bindParam(':nhName', $nhName);
 		$query->bindParam(':notes', $notes);
@@ -328,29 +329,29 @@ function saveUnconfirmedData($_POST)
 		$query->bindParam(':latlong', $latLong);
 		$query->bindParam(':wcEmail', $wcEmail);
 		$query->bindParam(':ncEmail', $ncEmail);
-			
+
 		$nhName= $_POST['NHbox'];
 		$notes= $_POST['ud_notes'];
 		$punotes=$_POST['ud_punotes'];
-		
-	//if they've been accepted already, don't replace the status field		
+
+	//if they've been accepted already, don't replace the status field
 		if($accepted['accepted']==1)
 			$wcnotes=$accepted['WCNotes'];
 		else
 			$wcnotes='<p style="width: 360px; background-color: green; color: white; font-size: 16px; font-weight: bolder; padding: 15px; border: 1px solid green; border-radius: 10px;">
 			'.getTodaysDate().':  Assigned to NH '.getNHNameFromNhoodID($nhName).' (NC: '.getNCNameFromNhoodID($_POST['NHbox']).'  )</p>';
-		
+
 		$uID=$_POST['ud_memberID'];
 		$latLong=$_POST['ud_latLong'];
-		
+
 		if(isset($_POST['wcemail']))
 			$wcEmail=1;
 		else $wcEmail=0;
-		
+
 		if(isset($_POST['ncemail']))
 			$ncEmail=1;
 		else $ncEmail=0;
-		
+
 		try
 		{
 			$query->execute();
@@ -368,9 +369,9 @@ function saveEmail($content,$dbh)
 
 		$query=$dbh->prepare("UPDATE wholeproject SET data=:html WHERE miscName='welcomeEmail'");
 		$query->bindParam(':html', $html);
-		
+
 		$html=trim($content);
-		
+
 		try
 		{
 			$query->execute();
@@ -380,7 +381,7 @@ function saveEmail($content,$dbh)
 			echo '<script type="text/javascript"> alert("Default welcome email has NOT been saved. \r\n Error: '.$e->getMessage().'")</script>';
 			die();
 		}
-	
+
 
 }//end saveEmail()
 

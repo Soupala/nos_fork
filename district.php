@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-	
+
 	include("securepage/nfp_password_protect.php");
 	include('mapFunctions.php');
 	$dID=$_GET['d'];
@@ -8,25 +8,25 @@
 	include('functions.php');
 	opendb();
 	$myMapKey=getMapKey();
-	
+
 // return to tool used before reloading the page
 	if(isset($_GET['tool']))
 		$tool=$_GET['tool'];
 	else $tool='nhoodsDiv';
-	
-	
+
+
 // do any saves before building the page
 	if(isset($_GET['savenotes']))
 	{	saveDistrictNotes($_POST);	}
 	if(isset($_GET['savecenter']))
 	{	saveDistrictCenter($_POST, $dID);	}
 	if(isset($_GET['deleteNH']))
-	{	deleteNhood($_POST, $dID);	}	
+	{	deleteNhood($_POST, $dID);	}
 	if(isset($_GET['newNH']))
 	{	newNhood($_POST['newNhoodName'], $_POST['NCbox'], $dID);	}
 	if(isset($_GET['assign']))
 	{	assignNC($_POST['NHbox'], $_POST['NCbox'])	;}
-	
+
 	if(isset($_GET['saveZoom']))
 	{	saveZoom("district", $_POST['zoomLevel'], $dID);	}
 
@@ -37,8 +37,8 @@
 	{
 		saveMergedNhoods($_POST['keeperBox'], $_POST['discardBox']);
 	}
-		
-		
+
+
 	$Dist=mysql_fetch_array(mysql_query("SELECT * FROM districts WHERE DistrictID=".$dID));
 		$dName=$Dist['DistrictName'];
 		$dcid=$Dist['DCID'];
@@ -51,20 +51,20 @@
 		$districtNotes=$Dist['notes'];
 		$zoomLevel=getZoom("district", $dID);
 
-//	create the list of neighborhoods	//		
+//	create the list of neighborhoods	//
 	$nhoodTable=" <tr><td colspan=2>Neighborhoods:</td></tr>";
 	$sql=mysql_query("SELECT * FROM neighborhoods WHERE DistrictID=".$dID.' ORDER BY NHName');
 	$nhoodArray=array();
-	
+
 	while ($nhoods=mysql_fetch_array($sql) )
 		{
-		
+
 			$nhoodTable.="<tr><td>	</td><td><a href='neighborhood.php?nh=".$nhoods['NHoodID']."&uid=".$uid."'>".$nhoods['NHName']."</a></td></tr>";
-			
+
 			$nhoodArray[$nhoods['NHoodID']]=$nhoods['polygon'];
-			
+
 		}
-	
+
 ?>
 <html>
 <head>
@@ -79,7 +79,7 @@
 	<script src="js/libs/modernizr-2.5.3.min.js"></script>
 
 	<script type="text/javascript"
-		src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&sensor=false&libraries=geometry"></script>
+		src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&libraries=geometry"></script>
 	<script type="text/javascript"
 		src="js/mapFunctions.js">
     </script>
@@ -90,48 +90,48 @@
 			document.getElementById("nhoodsDiv").style.display = "block";
 		else
 			document.getElementById("nhoodsDiv").style.display = "none";
-			
+
 		if(idOfDivToShow == "newNhoodDiv")
 			document.getElementById("newNhoodDiv").style.display = "block";
 		else
 			document.getElementById("newNhoodDiv").style.display = "none";
-			
+
 		if(idOfDivToShow == "delNhoodDiv")
 			document.getElementById("delNhoodDiv").style.display = "block";
 		else
 			document.getElementById("delNhoodDiv").style.display = "none";
-			
+
 		if(idOfDivToShow == "assignNCDiv")
 			document.getElementById("assignNCDiv").style.display = "block";
 		else
 			document.getElementById("assignNCDiv").style.display = "none";
-			
+
 		if(idOfDivToShow == "mapToolsDiv")
 			document.getElementById("mapToolsDiv").style.display = "block";
 		else
 			document.getElementById("mapToolsDiv").style.display = "none";
-			
+
 		//if(idOfDivToShow == "dNotesDiv")
 			//document.getElementById("dNotesDiv").style.display = "block";
 		//else
 			//document.getElementById("dNotesDiv").style.display = "none";
-			
-			
+
+
 		if(idOfDivToShow == "NCsDiv")
 			document.getElementById("NCsDiv").style.display = "block";
 		else
 			document.getElementById("NCsDiv").style.display = "none";
-			
+
 		if(idOfDivToShow == "renameNhoodDiv")
 			document.getElementById("renameNhoodDiv").style.display = "block";
 		else
 			document.getElementById("renameNhoodDiv").style.display = "none";
-			
+
 		if(idOfDivToShow == "mergeNhoodDiv")
 			document.getElementById("mergeNhoodDiv").style.display = "block";
 		else
 			document.getElementById("mergeNhoodDiv").style.display = "none";
-			
+
 		if(idOfDivToShow == "bulkEmailDiv")
 			document.getElementById("bulkEmailDiv").style.display = "block";
 		else
@@ -151,7 +151,7 @@
 		var membersArray={};
 		var numNhoods;
 		var numMembers;
-			
+
 		function initialize() {
 			var mapCenter=new google.maps.LatLng<?php echo $centerLatLong ?>;
 			var myOptions = {
@@ -159,51 +159,51 @@
 			  zoom: zoomLevel,
 			  mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
-			
+
 			 map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	//create a geocoder to transform addresses into lat and Long
 			geocoder= new google.maps.Geocoder();
 	//add the 'center' marker
 			 centerMarker = new google.maps.Marker({
-					position: mapCenter, 
+					position: mapCenter,
 					map: map,
 					//icon: "http://chart.apis.google.com/chart?chst=d_map_spin&chld=<?php echo $centerPinSize; ?>|0|<?php echo $centerPinColor; ?>|11|_|C",
 					icon: "icons/marker_split.png",
-					title: "The Center of the Map", 
+					title: "The Center of the Map",
 					visible: false
 				});
-				
+
 						 //add in the donor markers
-			 <?php 
-				
+			 <?php
+
 // 				foreach($nhoodArray as $key=>$value)
-// 				{ 
+// 				{
 // 					echo '
 // 					//going to make markers for nhood: '.$key.'
 // 					';
-// 					 //echo donorMarkers($key); 	
+// 					 //echo donorMarkers($key);
 // 					 echo donorMarkers($key);
 // 				}
  			?>
-			
+
 			//add in the NC markers
 			  <?php //ncImageMarkers(); ?>
 
 			 //add the neighborhood polygons
-			 <?php 
+			 <?php
 // 			//	foreach ($nhoodArray as $nid => $nhoodBounds)
 // 				//	echo NHpolygon($nhoodBounds);
 // 			 ?>
-			  
+
 			 //add in the donor markers
-			 <?php 
-				
+			 <?php
+
 // 				foreach($nhoodArray as $key=>$value)
-// 				{ 
+// 				{
 // 					echo '
 // 					//going to make markers for nhood: '.$key.'
 // 					';
-// 					 //echo donorMarkers($key); 	
+// 					 //echo donorMarkers($key);
 // 					 echo donorMarkers($key);
 // 				}
 			?>
@@ -213,15 +213,15 @@
 		//load the district polygon
 		<?php loadDistrictPolygon($_GET['d']);?>
 
-			
+
 	//set the active toolPanel from before the page reloaded
 			dShowHideDivs("<?php echo $tool ?>");
 		}
-/**	transforms the address in id="address" to coordinates in id="myCoords" when 	
+/**	transforms the address in id="address" to coordinates in id="myCoords" when
  *	Encode button is clicked */
 		function codeAddress(address, latLongBox) {
 			geocoder.geocode( { 'address': address}, function(results, status) {
-				if (status == google.maps.GeocoderStatus.OK) 
+				if (status == google.maps.GeocoderStatus.OK)
 					{
 						map.setCenter(results[0].geometry.location);
 						var marker = new google.maps.Marker({
@@ -229,8 +229,8 @@
 							position: results[0].geometry.location
 						});
 						document.getElementById(latLongBox).value=results[0].geometry.location;
-					} 
-				else 
+					}
+				else
 				{alert("Geocode was not successful for the following reason: " + status);}
 			});
 		}
@@ -268,13 +268,13 @@
 				<li><a href="#" onclick="dShowHideDivs('mergeNhoodDiv');">Merge</a></li>
 				<li><a href="#" onclick="dShowHideDivs('assignNCDiv');">Assign</a></li>
 				<li><a href="#" onclick="dShowHideDivs('newNhoodDiv');">Create New</a></li>
-				<li><a href="#" onclick="dShowHideDivs('bulkEmailDiv');">Email List</a></li>	
-				<li><a href="#" onclick="dShowHideDivs('NCsDiv');">NC List</a></li>				
+				<li><a href="#" onclick="dShowHideDivs('bulkEmailDiv');">Email List</a></li>
+				<li><a href="#" onclick="dShowHideDivs('NCsDiv');">NC List</a></li>
 				<li><a href="#" onclick="dShowHideDivs('nhoodsDiv');">Neighborhoods</a></li>
-				
+
 				</ul>
 </div>
-		
+
 		<!--  BULK EMAIL LIST -->
 		<div class="leftWidget" id="bulkEmailDiv">
 	<h2 style="text-align: center;">Your NC Email List</h2>
@@ -293,7 +293,7 @@
 	</a>
 	<br /><br />
 	</div>
-		
+
 <!-- 	MERGE TWO NEIGHBORHOODS INTO ONE -->
 		<div class="leftWidget" id="mergeNhoodDiv" name="mergeNhoodDiv" >
 			<form id="mergeNhoodForm" name="mergeNhoodForm" action="district.php?uid=<?php echo $uid ?>&d=<?php echo $dID;?>&tool=mergeNhoodDiv&merge=true" method="post">
@@ -310,106 +310,106 @@
 			</form>
 		</div>
 <!--	RENAME A NEIGHBORHOOD	-->
-		<div class="leftWidget" id="renameNhoodDiv" name="renameNhoodDiv" >	
+		<div class="leftWidget" id="renameNhoodDiv" name="renameNhoodDiv" >
 			<form id="renameNhoodForm" name="renameNhoodForm" action="district.php?uid=<?php echo $uid ?>&d=<?php echo $dID;?>&tool=renameNhoodDiv" method="post">
 				<h2>Rename a Neighborhood</h2>
 				<br />
 				Neighborhood:
 				<br />
-				<?php echo NhoodCombobox($dID) ?> 
+				<?php echo NhoodCombobox($dID) ?>
 				<br/><br/>
 				<input type="hidden" name="rename" value="true" />
-				<input type="text" name="newname" /> 
+				<input type="text" name="newname" />
 				<input type="submit" value="Submit" />
-		
+
 			</form>
 		</div>
-		
+
 <!-- MY NCS DIV -->
 <div class="leftWidget" id="NCsDiv">
 	<?php  ncContactList($dID); ?>
 </div>
-<br />		
+<br />
 
 <!--	CREATE A NEIGHBORHOOD	-->
-		<div class="leftWidget" id="newNhoodDiv" name="createNhood" >	
+		<div class="leftWidget" id="newNhoodDiv" name="createNhood" >
 			<form id="newNhoodForm" name="newNhoodForm" action="district.php?uid=<?php echo $uid ?>&newNH=true&d=<?php echo $dID;?>&tool=newNhoodDiv" method="post">
 				<h2>Creating A New Neighborhood</h2>
 				<br />
 				<p><b>Step 1</b><br />Visit the NCs Profile to make sure he/she has the NC box checked under Rolls. If not, check the NC box, save changes, and then return here.</p><br />
 				<p><b>Step 2</b></p><br />
-				<b>Give this Neighborhood A Name:</b> 
+				<b>Give this Neighborhood A Name:</b>
 				<br/><input type="text" name="newNhoodName" id="newNhName"/><br /><br />
 				<b>Attach the NC to it:</b> <br/><?php  echo NCcombobox(); ?><br /><br />
-				<!-- for debugging: 
+				<!-- for debugging:
 				<input type="button" value="debug" onclick="alert('nhName: ' + document.getElementById('newNhName') + '\nNC: ' + document.getElementByID('NCbox'));" />-->
 				<input class="queuebuttons" style="padding:10px;" type="submit" value="submit" /><br /><br />
-				
+
 			</form>
 			    <p><b>Step 3</b><br /> Return to the NC's Profile and switch them to this Neighborhood you just created.</p>
-			
+
 		</div>
-		
+
 <!--	DELETE A NEIGHBORHOOD	-->
-		<div class="leftWidget" id="delNhoodDiv" name="deleteNhood" >	
+		<div class="leftWidget" id="delNhoodDiv" name="deleteNhood" >
 			<form id="deleteNhoodForm" name="deleteNhoodForm" onsubmit="return confirm('Are you sure you want to delete this neighborhood? \nAny donors remaining assigned to this neighborhood will be left dangling.');" action="district.php?uid=<?php echo $uid ?>&d=<?php echo $dID;?>&deleteNH=true&tool=delNhoodDiv" method="post">
 				<h2>Delete a Neighborhood</h2>
 				<br/>
 				Neighborhood to remove from your district:
 				<br /><br />
-				<?php echo NhoodCombobox($dID) ?> 
+				<?php echo NhoodCombobox($dID) ?>
 				<br /><br />
 				<input type="submit" value="Delete" />
-		
+
 			</form>
 		</div>
-		
+
 <!--	ASSIGN AN NC	-->
-		
-		<div class="leftWidget" id="assignNCDiv" >		
+
+		<div class="leftWidget" id="assignNCDiv" >
 			<form id="assignNCForm" name="assignNCForm" action="district.php?uid=<?php echo $uid ?>&assign=true&d=<?php echo $dID;?>&tool=assignNCDiv" method="post">
-				<h2>Assign an NC</h2> 
+				<h2>Assign an NC</h2>
 				<br />
 				Neighborhood: <?php echo NhoodCombobox($dID) ?> <br/>
 				Possible NCs: <?php echo NCcombobox(); ?>
 				<input type="submit" />
 			</form>
 		</div>
-	
 
-<!--  MAP TOOLS-->	
-		<div class="leftWidget" id="mapToolsDiv">	
+
+<!--  MAP TOOLS-->
+		<div class="leftWidget" id="mapToolsDiv">
 			<?php include('mapTools.php'); ?>
 		</div>
 
 <!--	The Neighborhoods In the District	-->
-		<div class="leftWidget" id="nhoodsDiv" name="districtInfo" >	
+		<div class="leftWidget" id="nhoodsDiv" name="districtInfo" >
 				<form id="editDistrictForm" action="updated.php?uid=<?php echo $uid ?>&tool=leftWidget" method="post">
-					<table style="background-color:transparent;">	
+					<table style="background-color:transparent;">
 						<?php	echo $nhoodTable;	?>
-					</table>	
+					</table>
 				</form>
-			
-		</div>		
-		
-		
+
+		</div>
+
+
 <!--	END LEFT WIDGET WRAPPER		-->
 	<!--</div>-->
 
-<!--	START Map Widget Wrapper		-->		
+<!--	START Map Widget Wrapper		-->
 	<div class="mapWidgetWrapper">
 
-	
-<!--	The Map	-->	
-	<div class="mapWidget" id="map_canvas">	
-		<p style="color:purple">Map attempting to load.....if you've been waiting over 30 seconds,<br /> 
-		you might check other webpages to see if your connection to the internet is working.</p>	
-	</div>	
+
+<!--	The Map	-->
+	<div class="mapWidget" id="map_canvas">
+		<p style="color:purple">Map attempting to load.....if you've been waiting over 30 seconds,<br />
+		you might check other webpages to see if your connection to the internet is working.</p>
+	</div>
 
 <!--	END The Map Area Wrapper	-->
 </div>
 
-	
+
 <!-- End of Main Content Wrapper -->
 <!--</div>-->
 
@@ -456,7 +456,7 @@ function deleteNhood($_POST, $dID)
 //	echo '<script type="text/javascript">	alert("You would now be deleting the neighborhood");		</script>';
 	$nhid=$_POST['NHbox'];
 //move all donors from this neighborhood to the district's at-large neighborhood
-		
+
 	//get the NHoodID for the atlarge neighborhood for this district
 		$row=mysql_fetch_array(mysql_query("SELECT NHoodID FROM neighborhoods WHERE DistrictID=".$dID." AND NHName LIKE '%atlarge%'"));
 	$atlargeID=$row['NHoodID'];
@@ -465,8 +465,8 @@ function deleteNhood($_POST, $dID)
 	//delete the neighborhood
 		//DELETE FROM neighborhoods WHERE NHoodID=".$nhid
 		$nhoodDeleted=mysql_query("DELETE FROM neighborhoods WHERE NHoodID='".$nhid."'");
-		
-		
+
+
 }
 
 
@@ -476,9 +476,9 @@ function assignNC($nhoodID, $newNCID)
 	$result=mysql_query($sql);
 	if($result)
 		echo '<script type="text/javascript">alert("New NC has been assigned");</script>';
-	else 
+	else
 		echo '<script type="text/javascript">alert("ERROR ASSIGNING AN NC\n\n the SQL is:\n'.$sql.'\n\nthe error was:'.mysql_error().'");</script>';
-	
+
 }
 
 // function newNhood($_POST, $dID)
@@ -496,13 +496,13 @@ function assignNC($nhoodID, $newNCID)
 // }
 // function saveDistrictNotes($_POST)
 // {
-	
+
 	// $notes=$_POST['notes'];
 	// $dID=$_POST['DistrictID'];
 	// //echo ' notes: '.$notes.'<br/> districtID: '.$dID.'<br/>';
 // //PARAMETERIZE THIS:
 	// mysql_query("UPDATE districts SET notes='".$notes."' WHERE DistrictID='".$dID."';");
-	
+
 // }
 // function saveDistrictCenter($_POST, $dID)
 // {
@@ -534,10 +534,10 @@ function NHpolygon($nhoodBounds)
 	// function donorMarkers($nhID)
 	// {
 		// $sql=mysql_query("SELECT MemberID,FirstName,LastName,latLong FROM members WHERE NHoodID=".$nhID." ORDER BY routeOrder");
-		
+
 		// while($nhoods=mysql_fetch_array($sql)	)
-		// {	
-		
+		// {
+
 			// if(!$nhoods['latLong']==0)
 			// {
 			// $tooltip=$nhoods['FirstName'].' '.$nhoods['LastName'];

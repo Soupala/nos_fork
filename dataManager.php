@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<?php 
+<?php
 	include("securepage/nfp_password_protect.php");
 	include('functions.php');
 	include('config.php');
 	opendb();
 	$uid=$_GET['uid'];
 
-	
+
 // return to tool used before reloading the page
 	//if(isset($_GET['tool']))
 		//$tool=$_GET['tool'];
 	//else $tool='unconfirmedDonors';
-	
+
 ?>
 
 
@@ -24,32 +24,32 @@
 	<script type="text/javascript">
 		function ShowHideDivs(idOfDivToShow)
 		{
-			
+
 			if(idOfDivToShow == "Switches")
 				document.getElementById("Switches").style.display = "block";
 			else
 				document.getElementById("Switches").style.display = "none";
-			
+
 			if(idOfDivToShow == "ExportCSV")
 				document.getElementById("ExportCSV").style.display = "block";
 			else
 				document.getElementById("ExportCSV").style.display = "none";
-				
+
 		}
-		
-	
+
+
 	</script>
-	
+
 </head>
 
- <body onload="initialize()"> 
- 
+ <body onload="initialize()">
+
 <h1 style="color: #2f4b66; padding: 5px 5px 15px 15px;">Data Manager</h1>
 <br />
-	
- 
-  
-	<!-- TITLE BAR -->	
+
+
+
+	<!-- TITLE BAR -->
 		<div class="gearsWidget" >
 				<ul id="adminNav">
 				<li><a href="recordTally.php?uid=<?php echo $uid ?>" target="ContentFrame">Record Tallysheets</a></li>
@@ -58,9 +58,9 @@
 				</ul>
 		</div>
 
-		
-	
-		
+
+
+
 
 <div class="fullWidget" id="Switches">
 		<div style="width: 450px; padding: 10px;">
@@ -71,9 +71,13 @@
 		<h2><a href="logs.php">Logs</a></h2>
 		<p>This is the first line of defense for accidental deletion of data. Every time someone makes a change to a Profile or a new record comes in via the Sign Up Form, that data is saved into this log file.</p>
 		</div>
-		
-		
-</div>	
+		<div style="width: 450px; padding: 10px;">
+		<h2><a href="default-pickup-month.php?uid='.$uid.'">Set Default Pickup Month</a></h2>
+		<p>Now you an edit the default pickup month. Ths will change the default month in both the NC's Record Tally and the Admin's Record Tally.</p>
+		</div>
+
+
+</div>
 
 <div class="fullWidget" id="ExportCSV">
 		<div style="width:450px;">
@@ -115,10 +119,10 @@
 		</tr>
 		</table>
 		</div>
-</div>		
-		
-		
-		
+</div>
+
+
+
 
 
 </body>
@@ -127,6 +131,3 @@
 <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.min.js"><\/script>')</script>
   <script src="js/plugins.js"></script>
   <script src="js/uiFunctions.js"></script>
-
-
-
