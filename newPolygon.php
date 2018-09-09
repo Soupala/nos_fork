@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<?php 
-	include("securepage/nfp_password_protect.php"); 
-//fix this for long term:	
+<?php
+	include("securepage/nfp_password_protect.php");
+//fix this for long term:
 	$dID="10001";
-	
+
 	if(isset($_GET['save']))
 		savePolygon();
-	
+
 	if(!isset($functionsAreLoaded))
 		{	include("functions.php");	}
 	opendb();
@@ -14,7 +14,7 @@
 		{	include("mapFunctions.php");	}
 	if(isset($_GET['nhood']))
 		{									}
-	
+
 		$myMapKey=getMapKey();
 		$centerLatLong=getCityLatLong();
 ?>
@@ -25,7 +25,7 @@
     <meta charset="UTF-8">
     <link href="memberStyles.css" rel="stylesheet" type="text/css">
     <script type="text/javascript"
-		src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&sensor=false&libraries=geometry"></script>
+		src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&libraries=geometry"></script>
 	<script type="text/javascript" src="mapFunctions.js"></script>
     <script type="text/javascript">
 		var currentPoly;
@@ -35,10 +35,10 @@
 		var dIsVisible=true;
 		//var neighborhoods=array();
 		//var districts[];
-		
+
 		function initialize() {
 					var mapCenter=new google.maps.LatLng<?php echo $centerLatLong ?>;
-			
+
 					var myOptions = {
 					  center: mapCenter,
 					  zoom: 13,
@@ -49,12 +49,12 @@
 					  myOptions);
 //add the 'center' marker
 					var centerMarker = new google.maps.Marker({
-							position: mapCenter, 
+							position: mapCenter,
 							map: map,
 							icon: "http://chart.apis.google.com/chart?chst=d_map_spin&chld=<?php echo $centerPinSize; ?>|0|<?php echo $centerPinColor; ?>|11|_|CENTER",
 							title: "The Center of the Map"
 					});
-					  
+
 					var polyOptions = {
 					  strokeColor: '#000000',
 					  strokeOpacity: 1.0,
@@ -64,7 +64,7 @@
 					};
 					newPoly = new google.maps.Polygon(polyOptions);
 
-// Add a listener for the click event 
+// Add a listener for the click event
 //parameters:(*the map canvas* , *the mouse event* , *function to send listener to*)
 					google.maps.event.addListener(map, 'click', addLatLng);
 /* // Add a listener for the polygon edit event
@@ -85,13 +85,13 @@
 </head>
 <body>
 <!-- THE REGION SELECT TOOLS DIV -->
-	<div class="widget" name="districtInfo" style="position:absolute; left:20px; width:30%; height:95%; overflow:auto;">	
+	<div class="widget" name="districtInfo" style="position:absolute; left:20px; width:30%; height:95%; overflow:auto;">
 		<div>
 			<em>Click map to draw a polyline</em>
 		</div>
 <hr/>the form<hr/>
 		<form id="savePolygonForm" action="newPolygon.php?save=true" method="post">
-			
+
 			<input type="button" name="showNeighborhoods" value="Show Neighborhoods" />
 			<br/>
 			Region Name
@@ -102,10 +102,10 @@
 			<br/>
 			Region Type
 			<input type="text" id="NorD" name="NorD" value="is Nhood or District" title="Neighborhoods are stored separately from Districts, so we need to know which one to save to."/>
-			
+
 			<div>
-				Encoding: 
-				
+				Encoding:
+
 			</div>
 			<textarea id="encoded-polyline" name="encoded-polyline" rows="1" style="width:100%;" title="This is the encoded form of the current region's boundaries. You probably don't care about this.">
 			</textarea>
@@ -114,33 +114,33 @@
 <hr/>end form<hr/>
 		<input type="button" onclick="updateEncodedPath(newPoly.getPath());" />
 					See PolyCode
-		
+
 		<br/>
 		Change the current region to:
 		<br/>
 		<input type="button" value="new" onclick="submit()" />
 		<br/>
-		
+
 		<form id="nhoodPolygonForm" action="newPolygon.php?nhood=true" method="post">
-		<?php 
+		<?php
 			$onchange="submit()";
-			echo allNhoodCombobox($onchange); 
+			echo allNhoodCombobox($onchange);
 		?>
 	</div>
-	
-	
 
 
 
-	
-	
-	
+
+
+
+
+
 <!-- THE MAP DIV -->
     <div class="widget" id="map_canvas" style="height:95%; width:60%; right:2%; top:2%;">
 	<p style="color:red">For some reason, the map isn't loading.</p>
 	</div>
-	
-	
+
+
 </body>
 </html>
 
@@ -148,7 +148,7 @@
 
 <?php
 	function savePolygon()
-	{	
+	{
 /*		if($_GET['save']!="n")
 		{
 */

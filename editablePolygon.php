@@ -1,11 +1,11 @@
-<?php 
-	include("securepage/ashland_password_protect.php"); 
-	
-	
+<?php
+	include("securepage/ashland_password_protect.php");
+
+
 	$dID="10001";
-	
-	
-	
+
+
+
 	if(!isset($functionsAreLoaded))
 		{	include("functions.php");	}
 	opendb();
@@ -14,20 +14,20 @@
 	//
 		$myMapKey=getMapKey();
 		$centerLatLong=getCityLatLong();
-		
 
-//	create the list of neighborhoods	//		
+
+//	create the list of neighborhoods	//
 	$nhoodTable=" <tr><td colspan=2>Neighborhoods:</td></tr>";
 	$sql=mysql_query("SELECT * FROM neighborhoods ORDER BY DistrictID,NHoodID");
 	$nhoodArray=array();
-	
+
 	while ($nhoods=mysql_fetch_array($sql) )
 		{
-		
+
 			$nhoodTable.="<tr><td>	</td><td><a href='neighborhood.php?nh=".$nhoods['NHoodID']."&id=".$nhoods['NCID']."'>".$nhoods['NHName']."</a></td></tr>";
-			
+
 			$nhoodArray[$nhoods['NHoodID']]=$nhoods['polygon'];
-			
+
 		}
 
 ?>
@@ -39,7 +39,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="images/AFPfavicon.ico" />
 	<link rel="stylesheet" type="text/css" href="memberStyles.css" />
 	<script type="text/javascript"
-      src="http://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&sensor=false&libraries=geometry">
+      src="http://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&libraries=geometry">
     </script>
 	<script type="text/javascript" src="mapFunctions.js"> </script>
     <script type="text/javascript">
@@ -49,13 +49,13 @@
 
 		function initialize() {
 			var mapCenter=new google.maps.LatLng<?php echo $centerLatLong ?>;
-			
+
 			var myOptions = {
 			  center: mapCenter,
 			  zoom: 13,
 			  mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
-			
+
 			 map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	//create a geocoder to transform addresses into lat and Long
 			geocoder= new google.maps.Geocoder();
@@ -63,56 +63,56 @@
 			google.maps.event.addListener(map, 'click', addPolyLatLng);
 	//add the 'center' marker
 			var centerMarker = new google.maps.Marker({
-					position: mapCenter, 
+					position: mapCenter,
 					map: map,
 					icon: "http://chart.apis.google.com/chart?chst=d_map_spin&chld=<?php echo $centerPinSize; ?>|0|<?php echo $centerPinColor; ?>|11|_|C",
 					title: "The Center of the Map"
 				});
-				
+
 			//add in the NC markers
 			  <?php //echo ncMarkers($ncPinColor); ?>
 			 //add in the DC markers
 				 <?php //echo dcMarkers($dcPinColor); ?>
-				 
-				 
+
+
 			//add the district polygon
 				<?php districtPolygon($dID) ?>
-				 
-				 
+
+
 			 //add the neighborhood polygons
-			 <?php 
+			 <?php
 			//	foreach ($nhoodArray as $nid => $nhoodBounds)
 				//	echo NHpolygon($nhoodBounds);
 			 ?>
-			  
+
 			 //add in the donor markers
-			 <?php 
-/*				
+			 <?php
+/*
 				foreach($nhoodArray as $nhoodID=>$polygon)
-				{ 
+				{
 					echo '
 					//going to make markers for nhood: '.$nhoodID.'
 					';
-					 //echo donorMarkers($nhoodID); 	
+					 //echo donorMarkers($nhoodID);
 					 echo donorMarkers($nhoodID, $fdPinColor, $ncPinColor, $dcPinColor);
 				}
 */
 			?>
-			
-			
-//for the click-marker connecting lines	
+
+
+//for the click-marker connecting lines
 		  var polyOptions = {
 		    strokeColor: '#000000',
 		    strokeOpacity: 1.0,
 		    strokeWeight: 3,
 			editable: true
 		  }
-			
+
 			poly = new google.maps.Polyline(polyOptions);
 			poly.setMap(map);
 }
 
-	
+
 
     </script>
 
@@ -124,11 +124,11 @@
 //////////////////////////////////////////
 //	The Neighborhoods 					//
 //////////////////////////////////////////	-->
-		<div class="widget" name="districtInfo" style="position:absolute; left:20px; width:150px; height:95%; overflow:auto;">	
+		<div class="widget" name="districtInfo" style="position:absolute; left:20px; width:150px; height:95%; overflow:auto;">
 			<form id="editDistrictForm" action="updated.php" method="post">
-				<table>	
+				<table>
 					<?php	echo $nhoodTable;	?>
-				</table>	
+				</table>
 			</form>
 		</div>
 
@@ -138,8 +138,8 @@
 			coordinates of where you clicked<hr/>
 			<textarea id="clickedCoords" style="height:100%; width:100%;"> </textarea>
 		</div>
-		
-		
+
+
 <!-- the encoded path gets put in this div: -->
 		<div class="widget" id="coordsDiv" style="position:absolute; overflow:auto; width:200px;  left:170px; height:45%; bottom:2%;" >
 			<br/>
@@ -150,12 +150,12 @@
 //////////////////////////
 //	The Map				//
 //////////////////////////	-->
-	<div class="widget" id="map_canvas" style="position:absolute; right:2%;  width:60%; height:95%; top:2%">	
-		<p style="color:lime"> Polygon Maps Coming Soon </p>	
-	</div>	
-	
-	
-	
+	<div class="widget" id="map_canvas" style="position:absolute; right:2%;  width:60%; height:95%; top:2%">
+		<p style="color:lime"> Polygon Maps Coming Soon </p>
+	</div>
+
+
+
 
 </body>
 <script type="text/javascript">
@@ -199,10 +199,10 @@
 function districtPolygon($districtID, $strokeColor="00AA00", $strokeOpacity="0.8",$fillColor="006600", $fillOpacity="0.35")
 		{
 			$row=mysql_fetch_array(mysql_query("SELECT DistrictName,DCID,center,polygon FROM districts WHERE DistrictID=".$districtID));
-			
+
 			echo 'var '.$row['DistrictName'].'Polygon;
 			';
-			
+
 			if($row['polygon'] == "0")
 				//come up with some default editable polygon
 				echo 'There is no polygon for this area in the database';
@@ -211,10 +211,10 @@ function districtPolygon($districtID, $strokeColor="00AA00", $strokeOpacity="0.8
 					'.$row['polygon'].'
 					];
 				';
-					
-					
-					
-					
+
+
+
+
 			echo $row['DistrictName'].'Polygon = new google.maps.Polygon({
 					paths: '.$row['DistrictName'].'Coords,
 					strokeColor: "#'.$strokeColor.'",
@@ -225,12 +225,12 @@ function districtPolygon($districtID, $strokeColor="00AA00", $strokeOpacity="0.8
 					editable: true
 				});
 			';
-			
-			
+
+
 			echo $row['DistrictName'].'Polygon.setMap(map);';
 		}
-	
-	
+
+
 
 
 

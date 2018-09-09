@@ -66,7 +66,7 @@
 	<link rel="stylesheet" type="text/css" href="css/headerNav.css" />
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<script type="text/javascript" src="js/scripts.js"> </script>
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&sensor=false&libraries=geometry"></script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&libraries=geometry"></script>
 
 	<script type="text/javascript" >
 		var map;

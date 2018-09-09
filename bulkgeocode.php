@@ -1,5 +1,5 @@
 <?php
-	
+
 	echo "geocoding <br>";
 	//include config and functions to connect ot database
 	include('config.php');
@@ -7,8 +7,8 @@
 	//function for retrieving location
 	function getLocation($address)
 	{
-		$url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=".urlencode($address);
-		
+		$url = "http://maps.google.com/maps/api/geocode/json?&address=".urlencode($address);
+
 		$result_json = file_get_contents($url);
 		$result = json_decode($result_json);
 		if($result->status == "OK")
@@ -30,7 +30,7 @@
 			$location = getLocation($address);
 			$lat = $location->lat;
 			$lng = $location->lng;
-		
+
 			//insert location into database
 			$con->query("UPDATE members SET latLong = '(".$lat.",".$lng.")' WHERE MemberID = '".$member['MemberID']."'");
 		}

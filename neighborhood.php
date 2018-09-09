@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<?php 
-	include("securepage/nfp_password_protect.php"); 
+<?php
+	include("securepage/nfp_password_protect.php");
 	include("functions.php");
 	include("mapFunctions.php");
 	//
@@ -10,12 +10,12 @@
 	if(isset($_GET['tool']))
 		$tool=$_GET['tool'];
 	else $tool='newDonorsDiv';
- 
+
 	if(isset($_GET['nh']))
 	$nhID=$_GET['nh'];
 	$uid=$_GET['uid'];
 	opendb();
-	
+
 // do any saves before building the page
 	if(isset($_GET['save']))
 		saveNHdata($_POST);
@@ -46,12 +46,12 @@
 	{	setHasBag($_POST['fdID']);
 	}
 
-	
-	
-//end saves section	
 
-	
-	
+
+//end saves section
+
+
+
 		$nHood=mysql_fetch_array(mysql_query("SELECT * FROM neighborhoods WHERE NHoodID=".$nhID));
 		$nhName=$nHood['NHName'];
 		$ncid=$nHood['NCID'];
@@ -61,7 +61,7 @@
 			$centerLatLong=getCityLatLong();
 		else $centerLatLong=$nHood['center'];
 		$encodedPolyline = $nHood['routePolyline'];
-		
+
 	$zoomLevel=getZoom("neighborhood", $nhID);
 	$imageAcceptNew="<img src=\"icons/newDonorsNo.png\" alt=\"No new donors\" />";
 
@@ -82,7 +82,7 @@
 	<script src="js/libs/modernizr-2.5.3.min.js"></script>
 
 	<script type="text/javascript"
-		src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&sensor=false&libraries=geometry">
+		src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>libraries=geometry">
 	</script>
 	<script type="text/javascript"	src="js/mapFunctions.js"></script>
     <script type="text/javascript">
@@ -99,7 +99,7 @@
 		var numMembers;
 		var numNhoods;
 		var mapCenter;
-		
+
 		function initialize() {
 			 mapCenter=new google.maps.LatLng<?php echo $centerLatLong ?>;
 			var myOptions = {
@@ -107,14 +107,14 @@
 			  zoom: zoomLevel,
 			  mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
-			
+
 			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	//create a geocoder to transform addresses into lat and Long
 			geocoder= new google.maps.Geocoder();
-			
+
 	//add the 'center' marker and temp marker
 			centerMarker = new google.maps.Marker({
-					position: mapCenter, 
+					position: mapCenter,
 					map: map,
 				//	icon: "https://chart.apis.google.com/chart?chst=d_map_spin&chld=<?php echo $centerPinSize; ?>|0|<?php echo $centerPinColor; ?>|11|_|C",
 					icon: "icons/marker_split.png",
@@ -132,13 +132,13 @@
 
 	//add in the neighborhood polygon
 	<?php loadNhoodPolygon($nhID)?>
-			
-	//add in the route-order polyline 
+
+	//add in the route-order polyline
 			<?php nhoodRoute($nhID,$encodedPolyline); ?>
 //nhoodRoute($nhID, $routePolyline=0)			$encodedPolyline = $nHood['routePolyline'];
 	//add in the donor markers
 			<?php //donorMarkers($nhID); ?>//echo nhoodMarkers($nhID); ?>
-			  
+
 	//set the active Widget from before the page reloaded
 		nhShowHideDivs("<?php echo $tool ?>");
 }
@@ -149,19 +149,19 @@
 		{
 			var theDiv=document.getElementById("newDonorsDiv");
 			if(theDiv.style.display=="block")
-			{	
+			{
 alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO NONE");
-				theDiv.style.display="none";	
+				theDiv.style.display="none";
 			}
-			else 
+			else
 			{
 alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO BLOCK");
 			theDiv.style.display="block";
-			
+
 			}
 		}
 	</script> -->
-	
+
 <script language="JavaScript" type="text/javascript">
 
 /* 	SHOW/HIDE 	*/
@@ -173,26 +173,26 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 			document.getElementById("donorsDiv").style.display = "block";
 		else
 			document.getElementById("donorsDiv").style.display = "none";
-			
-			
+
+
 		if(idOfDivToShow == "notesDiv")
 			document.getElementById("notesDiv").style.display = "block";
 		else
 			document.getElementById("notesDiv").style.display = "none";
-			
-			
+
+
 		if(idOfDivToShow == "mapToolsDiv")
 			document.getElementById("mapToolsDiv").style.display = "block";
 		else
 			document.getElementById("mapToolsDiv").style.display = "none";
-			
-			
+
+
 		if(idOfDivToShow == "newDonorsDiv")
 			document.getElementById("newDonorsDiv").style.display = "block";
 		else
 			document.getElementById("newDonorsDiv").style.display = "none";
-			
-			
+
+
 		if(idOfDivToShow == "donorDbDiv")
 			document.getElementById("donorDbDiv").style.display = "block";
 		else
@@ -202,22 +202,22 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 			document.getElementById("bulkEmailDiv").style.display = "block";
 		else
 			document.getElementById("bulkEmailDiv").style.display = "none";
-		
+
 	}
 
 </script>
 
-	
-	
-	
-	
-	
+
+
+
+
+
 </head>
 
 <body onload="initialize()">
 
-<?php	
-	//If the page has been opened in a new tab, such as from the all-members table (flatDB.php), 
+<?php
+	//If the page has been opened in a new tab, such as from the all-members table (flatDB.php),
 	//show the neighborhood name and a message reminding the user that they are in a second tab
 	//otherwise, just display the neighborhood name.
 	if (isset($_GET['tab']))
@@ -227,7 +227,7 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 		else
 	{	echo'<h1 style="color: #f33e06; padding: 10px 10px 5px 25px;">'. getNhoodNameFromNid($nhID) .' <a href="neighborhood.php?uid='.$uid.'&nh='.$nhID.'&ncid='.$ncid.'&tool=donorDbDiv&orderBy=LastName" target="ContentFrame" style="padding-left: 15px;"><img src="icons/reload.png" alt="reload" /></a></h1>';
 	echo '<br />';
-	
+
 	}
 ?>
 
@@ -242,31 +242,31 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 			<li><a href="#" onclick="nhShowHideDivs('bulkEmailDiv');">Email List</a></li>
 			<li><a href="#" onclick="nhShowHideDivs('donorDbDiv');">View Donors</a></li>
 			<li><a href="#" onclick="nhShowHideDivs('newDonorsDiv');">Home</a></li>
-			</ul> 
+			</ul>
 </div>
-	
+
 
 <!--	PREPARE THE DONORS / ROUTE DIV	-->
 
 	<?php
 	//////////////////////////////////////
 	//	The  Donors / Route Div for This Nhood	//
-	//////////////////////////////////////		
+	//////////////////////////////////////
 //set up the content of the table
-	$nhoodTable=' 
+	$nhoodTable='
 		<tr>
 			<th>Donors:</th>
 			<td></td>
 			<td><input type="submit" value="save route order" /></td>
 		</tr>
-		
+
 		<tr>
 		<th >Edit</th>
 		<td>Donor Name</td>
 		<th>Route Order</th>
-		
+
 		</tr>';
-		 
+
 	$sql="SELECT * FROM members WHERE NHoodID=".$nhID." AND accepted=1 AND hasBag=1 AND(Status='ACTIVE' OR Status='INACTIVE') ORDER BY routeOrder, StreetName, House, Apt";
 	$result=mysql_query($sql);
 //echo '<script type="text/javascript" />alert("sql:\n '.$sql.'")</script>';
@@ -275,24 +275,24 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 		if ($nhoods['Apt'] =='')
 			$theApt='';
 		else $theApt=' apt:'.$nhoods['Apt'];
-		
+
 		if($nhoods['accepted']==1)
 
-		$nhoodTable.='<tr><td> 
-			<a href="editMember.php?fdid='.$nhoods["MemberID"].'&uid='.$uid.'" target="_blank" title="View/Edit this member\'s information" > 
+		$nhoodTable.='<tr><td>
+			<a href="editMember.php?fdid='.$nhoods["MemberID"].'&uid='.$uid.'" target="_blank" title="View/Edit this member\'s information" >
 			<img src="icons/edit.png" alt="Edit This Member" width="30px" height="30px" />
 			</a>	</td>
 		<td >
-			'.$nhoods["FirstName"].' '.$nhoods["LastName"].'<br/> '.$nhoods['House'].' '.$nhoods['StreetName'].$theApt.' 
+			'.$nhoods["FirstName"].' '.$nhoods["LastName"].'<br/> '.$nhoods['House'].' '.$nhoods['StreetName'].$theApt.'
 		</td>
 		<td><input type="text" name="route'.$nhoods['MemberID'].'" value="'.$nhoods["routeOrder"].'" size="3" /></td>
-		
+
 		</tr>';
-	} 
+	}
 //show the table in a div
 ?>
 
-			
+
 <!--	NOTES DIV	-->
 <div class="fullWidget" id="notesDiv" name="Notes" >
 <h2>Neighborhood Notes</h2>
@@ -301,31 +301,31 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 		<textarea name="notes" id="notes" style="min-width: 600px; min-height: 300px; margin-left: auto; right: 10px;"><?php echo $nhoodNotes ?></textarea>
 		<input type="hidden" name="NHoodID" id="NHoodID" value="<?php echo $nhID ?>" />
 		<input type="submit" value="Save Notes" />
-		
+
 	</form>
 </div>
-			
+
 <!--	THE PICKUP ROUTE DIV	-->
 <div class="leftWidget" id="donorsDiv" name="nhoodInfo">
 <h2>Pickup Route</h2>
 <p>Click on the green dots on your map to identify your donors and save the best pickup order.  Your Tallysheet will print out in the same order.</p>
 <br />
 	<form id="routeOrderForm" action="neighborhood.php?uid=<?php echo $uid ?>&nh=<?php echo $nhID ?>&ncid=<?php echo $ncid ?>&saveroute=yes&tool=donorsDiv" method="post">
-		<table style="background-color:transparent;">	
+		<table style="background-color:transparent;">
 			<?php echo $nhoodTable; ?>
-		</table>	
+		</table>
 	</form>
 </div>
-	
-	
-<!--	MAP TOOLS DIV	-->	
+
+
+<!--	MAP TOOLS DIV	-->
 <div class="leftWidget" id="mapToolsDiv" ><br />
 	<a href="javascript:toggleTools('maxNumDonors');">Maximum # of Donors? +/- </a><br />
 	<div id="maxNumDonors" style="display: none;">
 		<p>Enter the maximum number of donors you can take on. This helps the Welcome Committee volunteer(s) determine how to assign new donors coming in via the public website, tabling, canvassing, etc.</p><br />
 	</div>
 	<?php include('mapTools.php'); ?>
-			
+
 </div>
 
 
@@ -341,11 +341,11 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 	if ($switchCheck['historySwitch']==1)
 		$NHFlatDB=include('nhDonorsDBHistoryOff.php');
 
-	else $NHFlatDB=include('nhDonorsDBHistoryOn.php');	
+	else $NHFlatDB=include('nhDonorsDBHistoryOn.php');
 	};
-	
+
 	echo $NHFlatDB;
-	
+
 	?>
 </div>
 
@@ -388,27 +388,27 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 		<p>Suppose you're declining a donor, but you have a suggestion to send back to the Welcome Committee.  Enter your text the Member Notes field and then click 'Decline.'</p><br />
 	</div>
 	<hr>
-		<?php		
+		<?php
 		populateNewDonorsDiv($nhID, $uid);
 		?>
 </div>
 
-<!-- END LEFT WIDGET WRAPPER -->		
+<!-- END LEFT WIDGET WRAPPER -->
 
-<!--	START Map Area Wrapper		-->		
+<!--	START Map Area Wrapper		-->
 	<div class="mapWidgetWrapper" id="mapWidgetWrapper">
 
-	
-<!--	The Map	-->	
-	<div class="mapWidget" id="map_canvas">	
-		<p style="color:purple">Map attempting to load.....if you've been waiting over 
+
+<!--	The Map	-->
+	<div class="mapWidget" id="map_canvas">
+		<p style="color:purple">Map attempting to load.....if you've been waiting over
 		30 seconds, you might check other webpages to see if your connection to the internet is working.
-		Please contact your support team for assistance.</p>	
-	</div>	
+		Please contact your support team for assistance.</p>
+	</div>
 
 <!--	END The Map Area Wrapper	-->
 	</div>
-	
+
 
 </body>
 
@@ -428,7 +428,7 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 		$sql=mysql_query("SELECT FirstName,LastName,latLong FROM members WHERE NHoodID=".$nhID." ORDER BY routeOrder");
 		$count=0;
 		while($nhoods=mysql_fetch_array($sql)	)
-		{	
+		{
 			$tooltip=$nhoods['FirstName'].' '.$nhoods['LastName'];
 			//echo 'setMarker(new google.maps.LatLng'.$nhoods['latLong'].', "'.$tooltip.'");';
 			echo 'var position'.$count.'= new google.maps.LatLng'.$nhoods['latLong'].';
@@ -447,12 +447,12 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 	{//firstName, LastName, House,Street,City,RouteOrder,latLong
 
 				if($routePolyline)
-				{	
+				{
 //	echo 'alert("found a good polyline. decoding.");';
 					$encodedPolyline = $routePolyline;
 					echo ' routeCoordinates =decodePath("'. $routePolyline.' ");				';
 				}
-				else 
+				else
 				{
 //	echo 'alert("did NOT find a polyline. pulling one together from donor points.");';
 					$sql=mysql_query("SELECT latLong FROM members WHERE NHoodID=".$nhID." AND accepted=1 AND hasBag=1 ORDER BY RouteOrder,LastName");
@@ -460,11 +460,11 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 					';
 					while ($nhoods=mysql_fetch_array($sql) )
 					{	if(trim($nhoods['latLong'])!='0' && $nhoods['latLong']!="NULL")
-						echo 'new google.maps.LatLng'.$nhoods['latLong'].', 
+						echo 'new google.maps.LatLng'.$nhoods['latLong'].',
 						';
 					}
 					echo ']; ';
-				}	
+				}
 				echo '
 					routePoly = new google.maps.Polyline({
 						path: routeCoordinates,
@@ -477,7 +477,7 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 
 					  routePoly.setMap(map);
 					  ';
-				
+
 	}
 
 	function saveNHoodNotes($_POST)
@@ -488,12 +488,12 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 	//PARAMETERIZE THIS:
 		mysql_query("UPDATE neighborhoods SET notes='".$notes."' WHERE NHoodID='".$nhID."';");
 
-		
-		
-		
+
+
+
 		//id="route'.$nhoods['MemberID'].'"
 	}
-	
+
 	function saveRouteOrder($_POST, $nhID)
 	{
 			//save the routeOrder
@@ -504,8 +504,7 @@ alert("neighborhood.php js:showhideNewDonors() \n has been called\n\nSETTING TO 
 			mysql_query("UPDATE members SET routeOrder='".$_POST['route'.$row['MemberID']]."' WHERE MemberID='".$row['MemberID']."';");
 		}
 	}
-	
-		
+
+
 
 	?>
-	

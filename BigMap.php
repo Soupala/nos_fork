@@ -21,28 +21,28 @@
 	<script src="js/libs/modernizr-2.5.3.min.js"></script>
 
 	<script type="text/javascript"
-		src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&sensor=false&libraries=geometry">
+		src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&libraries=geometry">
 	</script>
-	
+
 	<script type="text/javascript"
 		src="js/mapFunctions.js">
 	</script>
-	
-	
+
+
 	    <script type="text/javascript">
 			var map;
 			var geocoder;
 			var mapCenter;
-			
+
 			var districtArray={};
 			var nhoodArray={};
 			var membersArray={};
 			var numNhoods;
 			var numDistricts;
 			var numMembers;
-	
-			
-		
+
+
+
 			function initialize() {
 				mapCenter=new google.maps.LatLng<?php echo $centerLatLong ?>;
 				var myOptions = {
@@ -50,28 +50,28 @@
 				  zoom: 11,
 				  mapTypeId: google.maps.MapTypeId.ROADMAP
 				};
-				
+
 				 map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 		//create a geocoder to transform addresses into lat and Long
 				geocoder= new google.maps.Geocoder();
 		//add the 'center' marker
 				var centerMarker = new google.maps.Marker({
-						position: mapCenter, 
+						position: mapCenter,
 						map: map,
 						icon: "http://chart.apis.google.com/chart?chst=d_map_spin&chld=<?php echo $centerPinSize; ?>|0|<?php echo $centerPinColor; ?>|11|_|C",
 						title: "The Center of the Map",
 						visible: false
 					});
-				
+
 				 //add in the donor markers
-					//<?php  //	allDonorMarkers(); ?>		
+					//<?php  //	allDonorMarkers(); ?>
 				//add in the NC markers
 					//<?php //echo ncImageMarkers(); ?>
 				//add in the DC markers
-					//<?php // echo dcImageMarkers(); ?>	
-	
+					//<?php // echo dcImageMarkers(); ?>
+
 				 //add the neighborhood polygons
-					//<?php 
+					//<?php
 					//	foreach ($nhoodArray as $nid => $nhoodBounds)
 					//	echo NHpolygon($nhoodBounds);
 					//?>
@@ -79,21 +79,21 @@
 					<?php loadAllDistrictPolygons();
 						unassignedDonorMarkers();
 					?>
-				
+
 			}
-	
+
 	    </script>
-			
+
 
 </head>
 
 
 <body onload="initialize()">
-<!--	The Map	-->	
-	<div style="position:absolute; height:100%; width:100%;" id="map_canvas">	
-		<p style="color:purple">Map attempting to load.....if you've been waiting over 30 seconds,<br /> 
-		you might check other webpages to see if your connection to the internet is working. 
-		Otherwise, please contact tech support.</p>	
-	</div>	
+<!--	The Map	-->
+	<div style="position:absolute; height:100%; width:100%;" id="map_canvas">
+		<p style="color:purple">Map attempting to load.....if you've been waiting over 30 seconds,<br />
+		you might check other webpages to see if your connection to the internet is working.
+		Otherwise, please contact tech support.</p>
+	</div>
 </body>
 </html>
