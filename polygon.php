@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<?php 
+<?php
 
-	include("securepage/nfp_password_protect.php"); 
+	include("securepage/nfp_password_protect.php");
 	if(!isset($functionsAreLoaded))
 		{	include("functions.php");	}
 	opendb();
@@ -10,16 +10,16 @@
 	//
 		$myMapKey=getMapKey();
 		$centerLatLong=getCityLatLong();
-		
-		
-//first, do saves		
+
+
+//first, do saves
 		if(isset($_POST['save']))
 		{
 			saveRegionPolygon($_POST);
 		}
 
 
-		
+
 ?>
 
 
@@ -33,11 +33,11 @@
 	<link rel="stylesheet" type="text/css" href="css/memberStyles.css" />
 	<link rel="stylesheet" type="text/css" href="css/headerNav.css" />
 	<script src="js/libs/modernizr-2.5.3.min.js"></script>
-	
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&sensor=false&libraries=geometry">
+
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&libraries=geometry">
 	</script>
 	<script type="text/javascript" src="js/mapFunctions.js"> </script>
-  
+
 <!-- INITIALIZE() -->
     <script type="text/javascript">
 		var editablePoly;
@@ -54,52 +54,52 @@
 		var numMembers=0;
 		var currentRegionType;
 		var previousRegionType;
-		
+
 		var clickListener=false;
 
-		
+
 		function initialize() {
 			 mapCenter=new google.maps.LatLng<?php echo $centerLatLong ?>;
-			
+
 			var myOptions = {
 			  center: mapCenter,
 			  zoom: 13,
 			  mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
-			
+
 			 map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	//create a geocoder to transform addresses into lat and Long
 			geocoder= new google.maps.Geocoder();
 
 	//add the 'center' marker
 			var centerMarker = new google.maps.Marker({
-					position: mapCenter, 
+					position: mapCenter,
 					map: map,
 					icon: "http://chart.apis.google.com/chart?chst=d_map_spin&chld=<?php echo $centerPinSize; ?>|0|<?php echo $centerPinColor; ?>|11|_|C",
 					title: "The Center of the Map"
 				});
-				
+
 			//add in the NC markers
 			  <?php //echo ncMarkers($ncPinColor); ?>
 			 //add in the DC markers
 				 <?php //echo dcMarkers($dcPinColor); ?>
-				 
-				 
+
+
 			//add the district polygon
 				<?php //districtPolygon($dID) ?>
-				 
-				 
+
+
 			 //add the neighborhood polygons
-			 <?php 
+			 <?php
 			//	foreach ($nhoodArray as $nid => $nhoodBounds)
 				//	echo NHpolygon($nhoodBounds);
 			 ?>
-			  
-			 //add in the donor markers 
 
-			
-			
-//for the click-marker connecting lines	
+			 //add in the donor markers
+
+
+
+//for the click-marker connecting lines
 		  polyOptions = {
 		    strokeColor: '#000000',
 		    strokeOpacity: 1.0,
@@ -107,7 +107,7 @@
 			editable: true,
 			map: map
 		  }
-			
+
 			editablePoly = new google.maps.Polygon(polyOptions);
 			//poly.setMap(map);
 
@@ -124,7 +124,7 @@
 
 //next, load polygon to edit if so chosen
 			<?php if(isset($_GET['nhToPoly'])	)
-			{	
+			{
 				loadNhoodPolygon($_GET['nhToPoly']);
 				echo 'resetEditablePoly(nhoodPolygon'.$_GET['nhToPoly'].');	';
 			}
@@ -137,10 +137,10 @@
 			?>
 
 
-		<?php loadAllDistrictPolygons();?>	
+		<?php loadAllDistrictPolygons();?>
 //load the district polygons
 	<?php //loadDistrictPolygon()?>
-	
+
 //load the neighborhood polygons
 	<?php //loadNhoodPolygons()?>
 
@@ -150,7 +150,7 @@
 	<?php //$districtid=10001; loadAllNhoodPolygons($districtid);?>
 }
 
-	
+
 
     </script>
 <!-- CHANGE EDITABLE POLYGON -->
@@ -165,7 +165,7 @@
 			{	editablePoly.setOptions({strokeColor: "#0000FF", fillColor: "#0000FF"});	}
 			if(previousRegionType=="d")
 			{	editablePoly.setOptions({strokeColor: "#FF0000", fillColor: "#FF0000"});	}
-		//set editablePoly to the chosen polygon and make it editable 
+		//set editablePoly to the chosen polygon and make it editable
 			if(currentRegionType=="n")
 			{	editablePoly=nhoodArray[newPolyToEdit].polygon;
 			}
@@ -204,7 +204,7 @@
 					//alert("changing marker from\n "+membersArray[i].marker.getIcon()+"\nto \ngray");
 					membersArray[i].marker.setIcon("icons/mapDotNC.png");
 				}
-				else 
+				else
 				{	membersArray[i].marker.setIcon("icons/mapDotFD.png");
 					//alert("NOT changing marker ");
 				}
@@ -212,7 +212,7 @@
 			previousRegionType=currentRegionType;
 		}
 	</script>
-	
+
 <!-- NEW POLYGON SETUP -->
 <script type="text/javascript" >
 	function newPolyForRegion()
@@ -242,48 +242,48 @@
 <div class="leftWidgetWrapper" id="leftWidgetWrapper">
 
 		<div class="leftWidget" id="chooseNhoodDiv" >
-			
+
 			<h2 style="text-align:center;">Map Polygon Editor </h2>
-			
-			
+
+
 			<form method="post" action="polygon.php">
-			
-			
-							<p style="text-align:center;"> - Editing  <span id="regionTypeDisplay"></span> - 
+
+
+							<p style="text-align:center;"> - Editing  <span id="regionTypeDisplay"></span> -
 							<h3 id="currentPolyName" style="color:green; text-align:center;">No region selected.</h3> </p>
 				<input type="hidden" name="currentPolyID" id="currentPolyID" />
-				
+
 				<input type="hidden" name="regionType" id="regionType" />
 			<hr/>
 			1) Select a neighborhood:
-			
-<!-- CHOOSE A NEIGHBORHOOD -->	
-			<p style="text-align:center;">					
+
+<!-- CHOOSE A NEIGHBORHOOD -->
+			<p style="text-align:center;">
 				<?php echo allNhoodCombobox("nhToPoly",
-					"clickListener=false; 
-					currentRegionType='n'; 
+					"clickListener=false;
+					currentRegionType='n';
 					resetEditablePoly(this.value);
-					document.getElementById('regionType').value='n'; 
+					document.getElementById('regionType').value='n';
 					document.getElementById('regionTypeDisplay').innerHTML='Neighborhood';
 					document.getElementById('currentPolyID').value=this.value;
 					"); ?>
 			</p>
-		
-		
+
+
 <!-- CHOOSE DISTRICT -->
 				Or a district:
 			<p style="text-align:center;">
-				<?php echo	allDistrictsCombobox("dToPoly", 
-						"clickListener=false; 
+				<?php echo	allDistrictsCombobox("dToPoly",
+						"clickListener=false;
 						currentRegionType='d';
 						resetEditablePoly(this.value);
-						document.getElementById('regionType').value='d'; 
+						document.getElementById('regionType').value='d';
 						document.getElementById('regionTypeDisplay').innerHTML='District';
 						document.getElementById('currentPolyID').value=this.value;
 						") ?>
 			</p>
 
-			
+
 				<hr/>
 				2) Drag the handles on the polygon to reshape it.
 				<hr/>
@@ -294,44 +294,44 @@
 				4) Don't forget to save your work! <p style="text-align:center;"><input type="submit" name="save" value="Save" /> </p>
 			<!--  	coordinates of where you clicked:
 			-->		<input type="hidden" id="clickedCoords" style="width:100%" />
-		
-			
-			
+
+
+
 			<!--  BUTTONS	-->
-			
-				
-				
-				
+
+
+
+
 <!--  			<input type="radio" name="showD" /> Show Districts<br/>
 				<input type="radio" name="showN" /> Show Neighborhoods<br/>
 				<input type="radio" name="showM" /> Show Donors<br/>
--->		
+-->
 
 				<textarea id="encoded-polyline" rows="1" readonly="readonly" name="encoded-polyline" style=" width:96%; left:2%; display:none;"> </textarea>
-		
-					
-				
-				
+
+
+
+
 			</form>
 		</div>
-		
+
 		<br/>
 
 
 <!--	END Left Widget Wrapper		-->
 	</div>
 
-<!--	START Map Panel Widget Wrapper		-->		
+<!--	START Map Panel Widget Wrapper		-->
 	<div class="mapWidgetWrapper" id="mapCanvasWrapper">
-	
-<!--	The Map	-->	
-	<div class="mapWidget" id="map_canvas">	
-		<p style="color:purple">Map attempting to load.....if problem persists, please contact technical support.</p>	
-	</div>	
+
+<!--	The Map	-->
+	<div class="mapWidget" id="map_canvas">
+		<p style="color:purple">Map attempting to load.....if problem persists, please contact technical support.</p>
+	</div>
 
 <!--	END The Map Area Wrapper	-->
 	</div>
-	
+
 
 
 <!-- End of Main Content Wrapper -->
@@ -339,8 +339,8 @@
 
 <!-- END adminDashboardWrapper -->
 </div>
-	
-	
+
+
 </body>
 
 <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
@@ -423,17 +423,17 @@
 
 
 
-<?php 
+<?php
 //////////////////////////////////////////
 //	constructs a javascript polygon for google map
 
 function districtPolygon($districtID, $strokeColor="00AA00", $strokeOpacity="0.8",$fillColor="006600", $fillOpacity="0.35")
 {
 	$row=mysql_fetch_array(mysql_query("SELECT DistrictName,DCID,center,polygon FROM districts WHERE DistrictID=".$districtID));
-		
+
 	echo 'var '.$row['DistrictName'].'Polygon;
 	';
-		
+
 	if($row['polygon'] == "0")
 		//come up with some default editable polygon
 		echo 'There is no polygon for this area in the database';
@@ -442,10 +442,10 @@ function districtPolygon($districtID, $strokeColor="00AA00", $strokeOpacity="0.8
 		'.$row['polygon'].'
 		];
 		';
-		
-		
-		
-		
+
+
+
+
 	echo $row['DistrictName'].'Polygon = new google.maps.Polygon({
 	paths: '.$row['DistrictName'].'Coords,
 	strokeColor: "#'.$strokeColor.'",
@@ -456,8 +456,8 @@ function districtPolygon($districtID, $strokeColor="00AA00", $strokeOpacity="0.8
 	editable: true
 });
 ';
-		
-		
+
+
 	echo $row['DistrictName'].'Polygon.setMap(map);';
 }
 
@@ -491,7 +491,7 @@ function allDistrictsCombobox($comboboxName, $onchange)
 ?>
 
 
-<?php 
+<?php
 
 
 
