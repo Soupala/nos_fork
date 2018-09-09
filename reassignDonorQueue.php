@@ -47,7 +47,7 @@
 	<link rel="stylesheet" type="text/css" href="css/headerNav.css" />
 	<script type="text/javascript"
 		src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>&libraries=geometry"></script>
-		<script type="text/javascript"	src="js/mapFunctions.js"> </script>
+	<script type="text/javascript"	src="js/mapFunctions.js"> </script>
 	<script type="text/javascript">
 		function ShowHideDivs(idOfDivToShow)
 		{

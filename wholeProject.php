@@ -295,25 +295,6 @@
 <!--	END The Map Area Wrapper	-->
 	</div>
 
-
-<div style="z-index: 100000000;">
-<script type="text/javascript" src="//assets.zendesk.com/external/zenbox/v2.5/zenbox.js"></script>
-<style type="text/css" media="screen, projection">
-  @import url(//assets.zendesk.com/external/zenbox/v2.5/zenbox.css);
-</style>
-<script type="text/javascript">
-  if (typeof(Zenbox) !== "undefined") {
-    Zenbox.init({
-      dropboxID:   "20081413",
-      url:         "https://nfp.zendesk.com",
-      tabID:       "Support",
-      tabColor:    "purple",
-      tabPosition: "Right"
-    });
-  }
-</script>
-</div>
-
 </body>
 
 
