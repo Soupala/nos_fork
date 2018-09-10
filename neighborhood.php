@@ -82,7 +82,7 @@
 	<script src="js/libs/modernizr-2.5.3.min.js"></script>
 
 	<script type="text/javascript"
-		src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>libraries=geometry">
+		src="https://maps.googleapis.com/maps/api/js?key=<?php echo $myMapKey; ?>?libraries=geometry">
 	</script>
 	<script type="text/javascript"	src="js/mapFunctions.js"></script>
     <script type="text/javascript">
