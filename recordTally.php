@@ -89,7 +89,7 @@
 
 			echo '
 				<select name="pickupMonth">
-					<option value="'.$monthCode.'">'.$monthShort.' </option>
+					<option value=".$monthCode.">'.$monthShort.' </option>
 					<option value="02">Feb </option>
 					<option value="04">Apr</option>
 					<option value="06">Jun </option>
@@ -101,7 +101,7 @@
 
 			echo '
 				<select name="pickupYear">
-					<option value="'.$year.'">'.$year.'" </option>
+					<option value=".$year.">'.$year.' </option>
 					<option value="2022">2022 </option>
 					<option value="2023">2023 </option>
 					<option value="2024">2024 </option>
