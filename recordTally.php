@@ -70,7 +70,7 @@
 		$defaultPickupDateValues = getDefaultPickupDateValues();
 		$monthCode = $defaultPickupDateValues['MONTH_CODE'];
 		$monthShort = $defaultPickupDateValues['MONTH_SHORT'];
-
+		$year = date("Y");
 		echo '<h2 style="color:green;"> Recording Tallysheet for '.$nhName;
 
 		echo '<div class="widget" id="tallyFormDiv">';
@@ -100,9 +100,10 @@
 
 			echo '
 				<select name="pickupYear">
+					<option value="'.$year.'">'.$year.'" </option>
 					<option value="2022">2022 </option>
 					<option value="2023">2023 </option>
-					<option value="2024">2024</option>
+					<option value="2024">2024 </option>
 					<option value="2025">2025 </option>
 					<option value="2026">2026 </option>
 					<option value="2027">2027 </option>
