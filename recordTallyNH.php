@@ -46,6 +46,7 @@
 		$defaultPickupDateValues = getDefaultPickupDateValues();
 		$monthCode = $defaultPickupDateValues['MONTH_CODE'];
 		$monthShort = $defaultPickupDateValues['MONTH_SHORT'];
+                date_default_timezone_set('UTC');
 		$year=date("Y");
 
 		echo '<h1 style="color:green; padding-bottom: 15px;"> Record Tally for '.$nhName.' </h1> ';

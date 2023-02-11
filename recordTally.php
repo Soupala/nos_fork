@@ -70,6 +70,7 @@
 		$defaultPickupDateValues = getDefaultPickupDateValues();
 		$monthCode = $defaultPickupDateValues['MONTH_CODE'];
 		$monthShort = $defaultPickupDateValues['MONTH_SHORT'];
+		date_default_timezone_set('UTC');
 		$year = date("Y");
 		echo '<h2 style="color:green;"> Recording Tallysheet for '.$nhName;
 
